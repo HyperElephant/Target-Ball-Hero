@@ -67,7 +67,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             fontScale = 1.5
         }
         
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContinues", name: "updateContinues", object: nil)
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameSceneTwo.updateContinues), name: "updateContinues", object: nil)
         scoreLabel.fontName = fontName
         scoreLabel.fontSize = 64 * fontScale
         scoreLabel.fontColor = UIColor.blackColor()
@@ -188,7 +188,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             if soundToggle == true {
                 self.runAction(hitSound)
             }
-            score++
+            score += 1
             scoreLabel.text = "\(Int(score))"
             if highScore(score) {
                 scoreLabel.fontColor = UIColor.redColor()

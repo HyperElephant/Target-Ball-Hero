@@ -90,8 +90,8 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
                 withReuseIdentifier: "Header",
                 forIndexPath: indexPath) as! PhotoPickerHeaderView
             headerView.label.text = "Choose Background"
-            headerView.cancelButton.addTarget(self, action: "cancelPicker:", forControlEvents: UIControlEvents.TouchUpInside)
-            headerView.defaultButton.addTarget(self, action: "defaultBackground:", forControlEvents: UIControlEvents.TouchUpInside)
+            headerView.cancelButton.addTarget(self, action: #selector(LandscapePhotoPicker.cancelPicker(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            headerView.defaultButton.addTarget(self, action: #selector(LandscapePhotoPicker.defaultBackground(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             view =  headerView
         default:
             assert(false, "Unexpected element kind")

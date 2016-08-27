@@ -34,7 +34,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let doneButton = UIButton(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 60.0, UIScreen.mainScreen().bounds.height - 20.0, 50.0, 20.0))
         doneButton.titleLabel!.font = UIFont (name: "HelveticaNeue", size: 12 * UIScale)
-        doneButton.addTarget(self, action: "buyProduct:", forControlEvents: UIControlEvents.TouchUpInside)
+        doneButton.addTarget(self, action: #selector(StoreViewController.buyProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         doneButton.backgroundColor = UIColor.blackColor()
         
         SKPaymentQueue.defaultQueue().addTransactionObserver(self)
@@ -77,7 +77,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         var products = response.products
         
         if (products.count != 0) {
-            for var i = 0; i < products.count; i++
+            for i in 0 ..< products.count
             {
                 self.product = products[i]
                 self.productsArray.append(product!)
@@ -185,7 +185,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
             {
                 let restoreButton = UIButton(frame: CGRectMake(10.0, 10.0, UIScreen.mainScreen().bounds.width - 20.0, 44.0))
                 restoreButton.titleLabel!.font = UIFont (name: "HelveticaNeue-Bold", size: 20)
-                restoreButton.addTarget(self, action: "restorePurchases:", forControlEvents: UIControlEvents.TouchUpInside)
+                restoreButton.addTarget(self, action: #selector(StoreViewController.restorePurchases(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 restoreButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
                 restoreButton.setTitle("Restore Purchases", forState: UIControlState.Normal)
                 restoreButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
@@ -210,7 +210,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
                 let buyButton = UIButton(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 60.0, 5.0, 50.0, 20.0))
                 buyButton.titleLabel!.font = UIFont (name: "HelveticaNeue", size: 12 * UIScale)
                 buyButton.tag = indexPath.row
-                buyButton.addTarget(self, action: "buyProduct:", forControlEvents: UIControlEvents.TouchUpInside)
+                buyButton.addTarget(self, action: #selector(StoreViewController.buyProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 buyButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
                 let numberFormatter = NSNumberFormatter()
                 numberFormatter.numberStyle = .CurrencyStyle
@@ -259,7 +259,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         doneButton.setTitle("Done", forState: UIControlState.Normal)
         doneButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         doneButton.backgroundColor = UIColor.clearColor()
-        doneButton.addTarget(self, action: "closeStore:", forControlEvents: UIControlEvents.TouchUpInside)
+        doneButton.addTarget(self, action: #selector(StoreViewController.closeStore(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         headerView.addSubview(doneButton)
         
         return headerView

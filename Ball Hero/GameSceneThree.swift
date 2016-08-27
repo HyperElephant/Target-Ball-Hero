@@ -77,7 +77,7 @@ class GameSceneThree: SKScene, SKPhysicsContactDelegate  {
         authenticateLocalPlayer()
         self.addChild(labelHolder)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContinues", name: "updateContinues", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameSceneThree.updateContinues), name: "updateContinues", object: nil)
         
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             fontScale = 1.5
@@ -191,7 +191,7 @@ class GameSceneThree: SKScene, SKPhysicsContactDelegate  {
             } else if hasStarted == false {
                 hasStarted = true
                 startLabel.removeFromParent()
-                timer = NSTimer.scheduledTimerWithTimeInterval(timerSpeed, target: self, selector: "updateTimer", userInfo: nil, repeats: true)
+                timer = NSTimer.scheduledTimerWithTimeInterval(timerSpeed, target: self, selector: #selector(GameSceneThree.updateTimer), userInfo: nil, repeats: true)
             }
         }
     }
@@ -220,7 +220,7 @@ class GameSceneThree: SKScene, SKPhysicsContactDelegate  {
             if soundToggle == true {
                 self.runAction(hitSound)
             }
-            score++
+            score += 1
             scoreLabel.text = "\(Int(score))"
             if highScore(score) {
                 scoreLabel.fontColor = UIColor.redColor()
@@ -407,7 +407,7 @@ class GameSceneThree: SKScene, SKPhysicsContactDelegate  {
         addTimerBar()
         timer.invalidate()
         timerProgress = 1
-        timer = NSTimer.scheduledTimerWithTimeInterval(timerSpeed, target: self, selector: "updateTimer", userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(timerSpeed, target: self, selector: #selector(GameSceneThree.updateTimer), userInfo: nil, repeats: true)
     }
     
     func addTimerBar() {
@@ -569,23 +569,23 @@ class GameSceneThree: SKScene, SKPhysicsContactDelegate  {
         case 1:
             bar1.removeFromParent()
             remainingBars.removeAtIndex(0)
-            timerProgress++
+            timerProgress += 1
         case 2:
             bar2.removeFromParent()
             remainingBars.removeAtIndex(0)
-            timerProgress++
+            timerProgress += 1
         case 3:
             bar3.removeFromParent()
             remainingBars.removeAtIndex(0)
-            timerProgress++
+            timerProgress += 1
         case 4:
             bar4.removeFromParent()
             remainingBars.removeAtIndex(0)
-            timerProgress++
+            timerProgress += 1
         case 5:
             bar5.removeFromParent()
             remainingBars.removeAtIndex(0)
-            timerProgress++
+            timerProgress += 1
         default:
             timer.invalidate()
             //if highTest == true {

@@ -47,7 +47,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
             directToGame = NSUserDefaults.standardUserDefaults().boolForKey("startupState")
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "removeBannerAds", name: "removeAds", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.removeBannerAds), name: "removeAds", object: nil)
         
         iAdBanner.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.width, iAdBanner.bounds.height)
         iAdBanner.delegate = self
