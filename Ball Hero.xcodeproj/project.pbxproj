@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		740870641B6AB1FB00FD5005 /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 740870631B6AB1FB00FD5005 /* pop.mp3 */; };
-		740870661B6AB40500FD5005 /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 740870651B6AB40500FD5005 /* hit.mp3 */; };
-		740870681B6AB73300FD5005 /* thud.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 740870671B6AB73300FD5005 /* thud.mp3 */; };
+		7435CB8C2015039A00E9361C /* hit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7435CB882015039A00E9361C /* hit.mp3 */; };
+		7435CB8D2015039A00E9361C /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7435CB892015039A00E9361C /* pop.mp3 */; };
+		7435CB8E2015039A00E9361C /* thud.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7435CB8A2015039A00E9361C /* thud.mp3 */; };
+		7435CB8F2015039A00E9361C /* trumpets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7435CB8B2015039A00E9361C /* trumpets.mp3 */; };
 		743A5BD31AC349EA0008FAEF /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A5BD21AC349EA0008FAEF /* GameOverScene.swift */; };
 		7441968F1B968DA000A7CE19 /* GameSceneTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7441968E1B968DA000A7CE19 /* GameSceneTwo.swift */; };
 		744196911B96A70400A7CE19 /* SelectLevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744196901B96A70400A7CE19 /* SelectLevelScene.swift */; };
-		7442CDF51BAF617800841AF2 /* SKLabelNodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7442CDF41BAF617800841AF2 /* SKLabelNodeButton.swift */; settings = {ASSET_TAGS = (); }; };
-		7442CDF71BAF6E1800841AF2 /* HE.png in Resources */ = {isa = PBXBuildFile; fileRef = 7442CDF61BAF6E1800841AF2 /* HE.png */; settings = {ASSET_TAGS = (); }; };
+		7442CDF51BAF617800841AF2 /* SKLabelNodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7442CDF41BAF617800841AF2 /* SKLabelNodeButton.swift */; };
+		7442CDF71BAF6E1800841AF2 /* HE.png in Resources */ = {isa = PBXBuildFile; fileRef = 7442CDF61BAF6E1800841AF2 /* HE.png */; };
 		744F86B51B7FA24700D9765A /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 744F86B41B7FA24700D9765A /* Arrow.png */; };
 		7451F8481B718DF400C6FEB2 /* LandscapePhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7451F8471B718DF400C6FEB2 /* LandscapePhotoPicker.swift */; };
 		7451F84A1B718E2500C6FEB2 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7451F8491B718E2500C6FEB2 /* Photos.framework */; };
-		7451F84C1B719E3B00C6FEB2 /* trumpets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7451F84B1B719E3B00C6FEB2 /* trumpets.mp3 */; };
 		746EC0A41AC0F59800A7DAD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746EC0A31AC0F59800A7DAD8 /* AppDelegate.swift */; };
 		746EC0A61AC0F59800A7DAD8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 746EC0A51AC0F59800A7DAD8 /* GameScene.sks */; };
 		746EC0A81AC0F59800A7DAD8 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746EC0A71AC0F59800A7DAD8 /* GameScene.swift */; };
@@ -48,9 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		740870631B6AB1FB00FD5005 /* pop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop.mp3; sourceTree = "<group>"; };
-		740870651B6AB40500FD5005 /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
-		740870671B6AB73300FD5005 /* thud.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = thud.mp3; sourceTree = "<group>"; };
+		7435CB882015039A00E9361C /* hit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hit.mp3; sourceTree = "<group>"; };
+		7435CB892015039A00E9361C /* pop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop.mp3; sourceTree = "<group>"; };
+		7435CB8A2015039A00E9361C /* thud.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = thud.mp3; sourceTree = "<group>"; };
+		7435CB8B2015039A00E9361C /* trumpets.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = trumpets.mp3; sourceTree = "<group>"; };
 		743A5BD21AC349EA0008FAEF /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		7441968E1B968DA000A7CE19 /* GameSceneTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneTwo.swift; sourceTree = "<group>"; };
 		744196901B96A70400A7CE19 /* SelectLevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLevelScene.swift; sourceTree = "<group>"; };
@@ -59,7 +60,6 @@
 		744F86B41B7FA24700D9765A /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
 		7451F8471B718DF400C6FEB2 /* LandscapePhotoPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandscapePhotoPicker.swift; sourceTree = "<group>"; };
 		7451F8491B718E2500C6FEB2 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
-		7451F84B1B719E3B00C6FEB2 /* trumpets.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = trumpets.mp3; path = ../../../../Desktop/trumpets.mp3; sourceTree = "<group>"; };
 		746EC09E1AC0F59800A7DAD8 /* Ball Hero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ball Hero.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		746EC0A21AC0F59800A7DAD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		746EC0A31AC0F59800A7DAD8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -154,12 +154,12 @@
 		746EC0A11AC0F59800A7DAD8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7435CB882015039A00E9361C /* hit.mp3 */,
+				7435CB892015039A00E9361C /* pop.mp3 */,
+				7435CB8A2015039A00E9361C /* thud.mp3 */,
+				7435CB8B2015039A00E9361C /* trumpets.mp3 */,
 				7442CDF61BAF6E1800841AF2 /* HE.png */,
 				744F86B41B7FA24700D9765A /* Arrow.png */,
-				7451F84B1B719E3B00C6FEB2 /* trumpets.mp3 */,
-				740870671B6AB73300FD5005 /* thud.mp3 */,
-				740870651B6AB40500FD5005 /* hit.mp3 */,
-				740870631B6AB1FB00FD5005 /* pop.mp3 */,
 				746EC0A21AC0F59800A7DAD8 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -228,12 +228,13 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Hyper Elephant";
 				TargetAttributes = {
 					746EC09D1AC0F59800A7DAD8 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = J7826XAREP;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;
@@ -245,6 +246,7 @@
 					};
 					746EC0B61AC0F59800A7DAD8 = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 0800;
 						TestTargetID = 746EC09D1AC0F59800A7DAD8;
 					};
 				};
@@ -273,15 +275,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7435CB8C2015039A00E9361C /* hit.mp3 in Resources */,
 				7442CDF71BAF6E1800841AF2 /* HE.png in Resources */,
-				740870661B6AB40500FD5005 /* hit.mp3 in Resources */,
-				740870681B6AB73300FD5005 /* thud.mp3 in Resources */,
+				7435CB8E2015039A00E9361C /* thud.mp3 in Resources */,
 				744F86B51B7FA24700D9765A /* Arrow.png in Resources */,
 				746EC0B21AC0F59800A7DAD8 /* LaunchScreen.xib in Resources */,
+				7435CB8D2015039A00E9361C /* pop.mp3 in Resources */,
 				746EC0AF1AC0F59800A7DAD8 /* Images.xcassets in Resources */,
 				746EC0A61AC0F59800A7DAD8 /* GameScene.sks in Resources */,
-				740870641B6AB1FB00FD5005 /* pop.mp3 in Resources */,
-				7451F84C1B719E3B00C6FEB2 /* trumpets.mp3 in Resources */,
+				7435CB8F2015039A00E9361C /* trumpets.mp3 in Resources */,
 				746EC0AD1AC0F59800A7DAD8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,8 +369,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -378,6 +382,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -412,8 +417,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -422,6 +429,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -431,6 +439,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -449,6 +458,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appityappapp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -464,6 +474,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appityappapp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -480,6 +491,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appityappapp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ball Hero.app/Ball Hero";
 			};
 			name = Debug;
@@ -493,6 +505,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.appityappapp.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ball Hero.app/Ball Hero";
 			};
 			name = Release;

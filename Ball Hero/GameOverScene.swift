@@ -32,11 +32,11 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     var backLabelSize = CGFloat(28)
     var fontScale = CGFloat(1)
 
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
         self.size = self.view!.frame.size
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             fontScale = 1.5
         }
         
@@ -45,86 +45,86 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         titleSize = titleSize * fontScale
         subLabelSize = subLabelSize * fontScale
         
-        let background = SKSpriteNode(color: UIColor(red: 0.965, green: 0.882, blue: 0.094, alpha: 1), size: CGSizeMake(self.frame.width, self.frame.height))
+        let background = SKSpriteNode(color: UIColor(red: 0.965, green: 0.882, blue: 0.094, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
         
         let highScore = getOverallHighScore()
         let lastScore = getLastScore()
         
         titleLabel.fontName = titleFontName
         titleLabel.fontSize = titleSize
-        titleLabel.fontColor = UIColor.blackColor()
+        titleLabel.fontColor = UIColor.black
         titleLabel.text = "Menu"
-        titleLabel.position = CGPointMake(self.frame.midX, self.frame.midY * 5 / 3)
-        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        titleLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY * 5 / 3)
+        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(titleLabel)
         
         settingLabel.fontName = fontName
         settingLabel.fontSize = labelSize
-        settingLabel.fontColor = UIColor.blackColor()
+        settingLabel.fontColor = UIColor.black
         settingLabel.text = "Settings"
-        settingLabel.position = CGPointMake(self.frame.width / 4, self.frame.height * 2 / 3)
-        settingLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        settingLabel.position = CGPoint(x: self.frame.width / 4, y: self.frame.height * 2 / 3)
+        settingLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         //        settingLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
         self.addChild(settingLabel)
         
         storeLabel.fontName = fontName
         storeLabel.fontSize = labelSize
-        storeLabel.fontColor = UIColor.blackColor()
+        storeLabel.fontColor = UIColor.black
         storeLabel.text = "Store"
-        storeLabel.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height * 2 / 3)
-        storeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        storeLabel.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height * 2 / 3)
+        storeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
 //        storeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
         self.addChild(storeLabel)
         
         leaderboardLabel.fontName = fontName
         leaderboardLabel.fontSize = labelSize
-        leaderboardLabel.fontColor = UIColor.blackColor()
+        leaderboardLabel.fontColor = UIColor.black
         leaderboardLabel.text = "Leaderboard"
-        leaderboardLabel.position = CGPointMake(self.frame.width / 4, self.frame.height * 2 / 5)
-        leaderboardLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        leaderboardLabel.position = CGPoint(x: self.frame.width / 4, y: self.frame.height * 2 / 5)
+        leaderboardLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
 //        leaderboardLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
         self.addChild(leaderboardLabel)
         
         levelLabel.fontName = fontName
         levelLabel.fontSize = labelSize
-        levelLabel.fontColor = UIColor.blackColor()
+        levelLabel.fontColor = UIColor.black
         levelLabel.text = "Select Level"
-        levelLabel.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height * 2 / 5)
-        levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        levelLabel.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height * 2 / 5)
+        levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
 //        levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
         self.addChild(levelLabel)
         
         scoreLabel.fontName = subFontName
         scoreLabel.fontSize = subLabelSize
-        scoreLabel.fontColor = UIColor.blackColor()
+        scoreLabel.fontColor = UIColor.black
         scoreLabel.text = "Best: \(Int(highScore)), Last: \(Int(lastScore))"
-        scoreLabel.position = CGPointMake(self.frame.width / 4, self.frame.height / 3)
+        scoreLabel.position = CGPoint(x: self.frame.width / 4, y: self.frame.height / 3)
         self.addChild(scoreLabel)
         
         backLabel.fontName = backFontName
         backLabel.fontSize = backLabelSize
-        backLabel.fontColor = UIColor.blackColor()
+        backLabel.fontColor = UIColor.black
         backLabel.text = "Tap to Start Again"
-        backLabel.position = CGPointMake(self.frame.width / 2, CGRectGetMidY(self.frame)  * 1 / 3)
+        backLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.midY  * 1 / 3)
         self.addChild(backLabel)
 
-        background.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(background)
 
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            if leaderboardLabel.containsPoint(location) {
+            let location = touch.location(in: self)
+            if leaderboardLabel.contains(location) {
                 leaderboardLabel.select()
-            } else if storeLabel.containsPoint(location) {
+            } else if storeLabel.contains(location) {
                 storeLabel.select()
-            } else if settingLabel.containsPoint(location) {
+            } else if settingLabel.contains(location) {
                 settingLabel.select()
-            } else if backLabel.containsPoint(location){
+            } else if backLabel.contains(location){
                 backLabel.select()
-            } else if levelLabel.containsPoint(location){
+            } else if levelLabel.contains(location){
                 levelLabel.select()
             } else {
                 backLabel.select()
@@ -132,22 +132,22 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            if leaderboardLabel.containsPoint(location) && leaderboardLabel.selected == true {
+            let location = touch.location(in: self)
+            if leaderboardLabel.contains(location) && leaderboardLabel.selected == true {
                 leaderboardLabel.deselect()
                 showLeader()
-            } else if storeLabel.containsPoint(location) && storeLabel.selected == true {
+            } else if storeLabel.contains(location) && storeLabel.selected == true {
                 storeLabel.deselect()
                 showStore()
-            } else if settingLabel.containsPoint(location) && settingLabel.selected == true {
+            } else if settingLabel.contains(location) && settingLabel.selected == true {
                 settingLabel.deselect()
                 showSettings()
-            } else if backLabel.containsPoint(location) && backLabel.selected == true {
+            } else if backLabel.contains(location) && backLabel.selected == true {
                 backLabel.deselect()
                 backToGame()
-            } else if levelLabel.containsPoint(location) && levelLabel.selected == true {
+            } else if levelLabel.contains(location) && levelLabel.selected == true {
                 levelLabel.deselect()
                 showLevels()
             } else {
@@ -162,15 +162,15 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     func getLastScore() -> Double {
         var lastScore = Double()
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("lastScore") != nil {
-            lastScore = NSUserDefaults.standardUserDefaults().objectForKey("lastScore") as!  Double
+        if UserDefaults.standard.object(forKey: "lastScore") != nil {
+            lastScore = UserDefaults.standard.object(forKey: "lastScore") as!  Double
         } else {
             lastScore = 0.0
         }
         return lastScore
     }
     
-    func getHighScore(level:Int) -> Double {
+    func getHighScore(_ level:Int) -> Double {
         var highScore = Double()
         var scoreString = String()
         switch level{
@@ -187,8 +187,8 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         }
         
         
-        if NSUserDefaults.standardUserDefaults().objectForKey(scoreString) != nil {
-            highScore = NSUserDefaults.standardUserDefaults().objectForKey(scoreString) as!  Double
+        if UserDefaults.standard.object(forKey: scoreString) != nil {
+            highScore = UserDefaults.standard.object(forKey: scoreString) as!  Double
         } else {
             highScore = 0.0
         }
@@ -200,33 +200,33 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         let gc = GKGameCenterViewController()
         gc.gameCenterDelegate = self
         gc.leaderboardIdentifier = nil
-        vc?.presentViewController(gc, animated: true, completion: { () -> Void in
+        vc?.present(gc, animated: true, completion: { () -> Void in
         })
     }
     
     func showStore() {
         let vc = self.view?.window?.rootViewController
         let sc = StoreViewController()
-        vc?.presentViewController(sc, animated: true, completion: nil)
+        vc?.present(sc, animated: true, completion: nil)
     }
     
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
-        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
     func showSettings() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.up, duration: 1.0)
         let scene = SettingScene(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
     func showLevels() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.right, duration: 1.0)
         let scene = SelectLevelScene(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
@@ -243,10 +243,10 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     func backToGame() {
         var currentLevel = 1
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("currentLevel") != nil {
-            currentLevel = NSUserDefaults.standardUserDefaults().objectForKey("currentLevel") as! Int
+        if UserDefaults.standard.object(forKey: "currentLevel") != nil {
+            currentLevel = UserDefaults.standard.object(forKey: "currentLevel") as! Int
         }
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.left, duration: 1.0)
         var scene : SKScene
         
         switch currentLevel {
@@ -262,7 +262,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
              scene = GameScene(size: self.size)
         }
 
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     

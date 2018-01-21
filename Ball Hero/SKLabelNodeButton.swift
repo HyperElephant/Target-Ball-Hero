@@ -11,8 +11,8 @@ import SpriteKit
 class SKLabelNodeButton: SKLabelNode {
     
     var selected = false
-    var defaultColor = UIColor.blackColor()
-    var selectedColor = UIColor.whiteColor()
+    var defaultColor = UIColor.black
+    var selectedColor = UIColor.white
     
     func select() {
         self.fontColor = selectedColor

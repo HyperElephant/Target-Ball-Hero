@@ -13,14 +13,14 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
     
     var collectionView: UICollectionView!
     
-    var images: PHFetchResult!
+    var images: PHFetchResult<PHAsset>!
     let imageManager = PHCachingImageManager()
     var UIScale = CGFloat(1)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             UIScale = 1.5
         }
         
@@ -29,7 +29,7 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
             NSSortDescriptor(key: "creationDate", ascending: false)
         ]
         
-        images = PHAsset.fetchAssetsWithMediaType(.Image, options: fetchOptions)
+        images = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
@@ -39,59 +39,59 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.registerClass(PhotoPickerHeaderView.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
-        collectionView.backgroundColor = UIColor.whiteColor()
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(PhotoPickerHeaderView.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
+        collectionView.backgroundColor = UIColor.white
         self.view.addSubview(collectionView)
         
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) 
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) 
         
-        let imageView = UIImageView(frame: CGRectMake(0, 0, cell.frame.width, cell.frame.height))
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))
         cell.addSubview(imageView)
         
         var imageAsset: PHAsset? {
             didSet {
-                self.imageManager.requestImageForAsset(imageAsset!, targetSize: CGSize(width: imageView.frame.width, height: imageView.frame.height), contentMode: .AspectFill, options: nil) { image, info in
+                self.imageManager.requestImage(for: imageAsset!, targetSize: CGSize(width: imageView.frame.width, height: imageView.frame.height), contentMode: .aspectFill, options: nil) { image, info in
                     
                     imageView.image = image
                 }
             }
         }
-        imageAsset = images[indexPath.item] as? PHAsset
+        imageAsset = images[(indexPath as NSIndexPath).item]
         return cell
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView.frame = CGRectMake(0, 0, size.width, size.height)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
-        let image = images[indexPath.item].localIdentifier
-        NSUserDefaults.standardUserDefaults().setObject(image, forKey: "backgroundID")
+        let image = images[(indexPath as NSIndexPath).item].localIdentifier
+        UserDefaults.standard.set(image, forKey: "backgroundID")
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         var view: UICollectionReusableView
         switch kind {
         case UICollectionElementKindSectionHeader:
             let headerView =
-            collectionView.dequeueReusableSupplementaryViewOfKind(kind,
+            collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                 withReuseIdentifier: "Header",
-                forIndexPath: indexPath) as! PhotoPickerHeaderView
+                for: indexPath) as! PhotoPickerHeaderView
             headerView.label.text = "Choose Background"
-            headerView.cancelButton.addTarget(self, action: #selector(LandscapePhotoPicker.cancelPicker(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-            headerView.defaultButton.addTarget(self, action: #selector(LandscapePhotoPicker.defaultBackground(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            headerView.cancelButton.addTarget(self, action: #selector(LandscapePhotoPicker.cancelPicker(_:)), for: UIControlEvents.touchUpInside)
+            headerView.defaultButton.addTarget(self, action: #selector(LandscapePhotoPicker.defaultBackground(_:)), for: UIControlEvents.touchUpInside)
             view =  headerView
         default:
             assert(false, "Unexpected element kind")
@@ -100,17 +100,17 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
         return view
     }
     
-    func cancelPicker(sender:UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func cancelPicker(_ sender:UIButton) {
+        self.dismiss(animated: true, completion: nil)
         
     }
     
-    func defaultBackground(sender:UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-        NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "backgroundID")
+    func defaultBackground(_ sender:UIButton) {
+        self.dismiss(animated: true, completion: nil)
+        UserDefaults.standard.set(nil, forKey: "backgroundID")
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     

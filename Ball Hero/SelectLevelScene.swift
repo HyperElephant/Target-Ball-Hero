@@ -42,19 +42,19 @@ class SelectLevelScene: SKScene {
     var backLabelSize = CGFloat(28)
     var fontScale = CGFloat(1)
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         self.size = self.view!.frame.size
         authenticateLocalPlayer()
         
-        let background = SKSpriteNode(color: UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1), size: CGSizeMake(self.frame.width, self.frame.height))
+        let background = SKSpriteNode(color: UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("soundState") != nil {
-            soundToggle = NSUserDefaults.standardUserDefaults().boolForKey("soundState")
+        if UserDefaults.standard.object(forKey: "soundState") != nil {
+            soundToggle = UserDefaults.standard.bool(forKey: "soundState")
         } else {
             soundToggle = true
         }
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             fontScale = 1.5
         }
         labelSize = labelSize * fontScale
@@ -64,63 +64,63 @@ class SelectLevelScene: SKScene {
         
         titleLabel.fontName = titleFontName
         titleLabel.fontSize = titleSize
-        titleLabel.fontColor = UIColor.blackColor()
+        titleLabel.fontColor = UIColor.black
         titleLabel.text = "Select Level"
-        titleLabel.position = CGPointMake(self.frame.midX, self.frame.midY * 5 / 3)
-        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        titleLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY * 5 / 3)
+        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(titleLabel)
         
         levelOneLabel.fontName = fontName
         levelOneLabel.fontSize = labelSize
-        levelOneLabel.fontColor = UIColor.blackColor()
+        levelOneLabel.fontColor = UIColor.black
         levelOneLabel.text = "Level One"
-        levelOneLabel.position = CGPointMake(self.frame.width / 4, self.frame.height * 2 / 3)
-        levelOneLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelOneLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        levelOneLabel.position = CGPoint(x: self.frame.width / 4, y: self.frame.height * 2 / 3)
+        levelOneLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelOneLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(levelOneLabel)
         
         levelOneScore.fontName = subFontName
         levelOneScore.fontSize = subLabelSize
-        levelOneScore.fontColor = UIColor.blackColor()
+        levelOneScore.fontColor = UIColor.black
         levelOneScore.text = "High Score: \(Int(getHighScore(1)))"
-        levelOneScore.position = CGPointMake(self.frame.width / 4, self.frame.height * 2 / 3)
-        levelOneScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelOneScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Top
+        levelOneScore.position = CGPoint(x: self.frame.width / 4, y: self.frame.height * 2 / 3)
+        levelOneScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelOneScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.top
         self.addChild(levelOneScore)
         
         
         levelTwoLabel.fontName = fontName
         levelTwoLabel.fontSize = labelSize
-        levelTwoLabel.fontColor = UIColor.blackColor()
+        levelTwoLabel.fontColor = UIColor.black
         levelTwoLabel.text = "Level Two"
-        levelTwoLabel.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height * 2 / 3)
-        levelTwoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelTwoLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        levelTwoLabel.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height * 2 / 3)
+        levelTwoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelTwoLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(levelTwoLabel)
         
         levelTwoScore.fontName = subFontName
         levelTwoScore.fontSize = subLabelSize
-        levelTwoScore.fontColor = UIColor.blackColor()
+        levelTwoScore.fontColor = UIColor.black
         levelTwoScore.text = "High Score: \(Int(getHighScore(2)))"
-        levelTwoScore.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height * 2 / 3)
-        levelTwoScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelTwoScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Top
+        levelTwoScore.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height * 2 / 3)
+        levelTwoScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelTwoScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.top
         self.addChild(levelTwoScore)
         
         levelTwoUnlock.fontName = fontName
         levelTwoUnlock.fontSize = subLabelSize
-        levelTwoUnlock.fontColor = UIColor.whiteColor()
+        levelTwoUnlock.fontColor = UIColor.white
         levelTwoUnlock.text = "Score 25 to Unlock"
-        levelTwoUnlock.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height * 2 / 3)
+        levelTwoUnlock.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height * 2 / 3)
         levelTwoUnlock.zPosition = 81
 //        levelTwoUnlock.zRotation = CGFloat(M_PI_4)
-        levelTwoUnlock.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelTwoUnlock.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        levelTwoUnlock.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelTwoUnlock.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(levelTwoUnlock)
         
-        levelTwoPane.size = CGSizeMake(self.frame.width / 3, self.frame.height / 5)
-        levelTwoPane.color = UIColor.blackColor()
-        levelTwoPane.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height * 2 / 3)
+        levelTwoPane.size = CGSize(width: self.frame.width / 3, height: self.frame.height / 5)
+        levelTwoPane.color = UIColor.black
+        levelTwoPane.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height * 2 / 3)
         levelTwoPane.alpha = 0.4
         levelTwoPane.zPosition = 80
         self.addChild(levelTwoPane)
@@ -128,102 +128,102 @@ class SelectLevelScene: SKScene {
         
         levelThreeLabel.fontName = fontName
         levelThreeLabel.fontSize = labelSize
-        levelThreeLabel.fontColor = UIColor.blackColor()
+        levelThreeLabel.fontColor = UIColor.black
         levelThreeLabel.text = "Level Three"
-        levelThreeLabel.position = CGPointMake(self.frame.width / 4, self.frame.height / 3)
-        levelThreeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelThreeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        levelThreeLabel.position = CGPoint(x: self.frame.width / 4, y: self.frame.height / 3)
+        levelThreeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelThreeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(levelThreeLabel)
         
         levelThreeScore.fontName = subFontName
         levelThreeScore.fontSize = subLabelSize
-        levelThreeScore.fontColor = UIColor.blackColor()
+        levelThreeScore.fontColor = UIColor.black
         levelThreeScore.text = "High Score: \(Int(getHighScore(3)))"
-        levelThreeScore.position = CGPointMake(self.frame.width / 4, self.frame.height / 3)
-        levelThreeScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelThreeScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Top
+        levelThreeScore.position = CGPoint(x: self.frame.width / 4, y: self.frame.height / 3)
+        levelThreeScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelThreeScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.top
         self.addChild(levelThreeScore)
         
         levelThreeUnlock.fontName = fontName
         levelThreeUnlock.fontSize = subLabelSize
-        levelThreeUnlock.fontColor = UIColor.whiteColor()
+        levelThreeUnlock.fontColor = UIColor.white
         levelThreeUnlock.text = "Score 50 to Unlock"
-        levelThreeUnlock.position = CGPointMake(self.frame.width / 4, self.frame.height / 3)
+        levelThreeUnlock.position = CGPoint(x: self.frame.width / 4, y: self.frame.height / 3)
 //        levelThreeUnlock.zRotation = CGFloat(M_PI_4)
         levelThreeUnlock.zPosition = 81
-        levelThreeUnlock.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelThreeUnlock.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        levelThreeUnlock.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelThreeUnlock.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(levelThreeUnlock)
         
-        levelThreePane.size = CGSizeMake(self.frame.width / 3, self.frame.height / 5)
-        levelThreePane.color = UIColor.blackColor()
-        levelThreePane.position = CGPointMake(self.frame.width / 4, self.frame.height / 3)
+        levelThreePane.size = CGSize(width: self.frame.width / 3, height: self.frame.height / 5)
+        levelThreePane.color = UIColor.black
+        levelThreePane.position = CGPoint(x: self.frame.width / 4, y: self.frame.height / 3)
         levelThreePane.alpha = 0.4
         levelThreePane.zPosition = 80
         self.addChild(levelThreePane)
         
         levelFourLabel.fontName = fontName
         levelFourLabel.fontSize = labelSize
-        levelFourLabel.fontColor = UIColor.blackColor()
+        levelFourLabel.fontColor = UIColor.black
         levelFourLabel.text = "Level Four"
-        levelFourLabel.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height / 3)
-        levelFourLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelFourLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        levelFourLabel.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height / 3)
+        levelFourLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelFourLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(levelFourLabel)
         
         levelFourScore.fontName = subFontName
         levelFourScore.fontSize = subLabelSize
-        levelFourScore.fontColor = UIColor.blackColor()
+        levelFourScore.fontColor = UIColor.black
         levelFourScore.text = "High Score: \(Int(getHighScore(4)))"
-        levelFourScore.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height / 3)
-        levelFourScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelFourScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Top
+        levelFourScore.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height / 3)
+        levelFourScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelFourScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.top
         self.addChild(levelFourScore)
         
         levelFourUnlock.fontName = fontName
         levelFourUnlock.fontSize = subLabelSize
-        levelFourUnlock.fontColor = UIColor.whiteColor()
+        levelFourUnlock.fontColor = UIColor.white
         levelFourUnlock.text = "Score 75 to Unlock"
-        levelFourUnlock.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height / 3)
+        levelFourUnlock.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height / 3)
 //        levelFourUnlock.zRotation = CGFloat(M_PI_4)
         levelFourUnlock.zPosition = 81
-        levelFourUnlock.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        levelFourUnlock.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        levelFourUnlock.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        levelFourUnlock.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(levelFourUnlock)
         
-        levelFourPane.size = CGSizeMake(self.frame.width / 3, self.frame.height / 5)
-        levelFourPane.color = UIColor.blackColor()
-        levelFourPane.position = CGPointMake(self.frame.width * 3 / 4, self.frame.height / 3)
+        levelFourPane.size = CGSize(width: self.frame.width / 3, height: self.frame.height / 5)
+        levelFourPane.color = UIColor.black
+        levelFourPane.position = CGPoint(x: self.frame.width * 3 / 4, y: self.frame.height / 3)
         levelFourPane.alpha = 0.4
         levelFourPane.zPosition = 80
         self.addChild(levelFourPane)
         
         backLabel.fontName = backFontName
         backLabel.fontSize = backLabelSize
-        backLabel.fontColor = UIColor.blackColor()
+        backLabel.fontColor = UIColor.black
         backLabel.text = "Tap to Go to the Menu"
-        backLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)  * 1 / 3)
+        backLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY  * 1 / 3)
         self.addChild(backLabel)
         
-        background.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(background)
         
         unlock()
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         self.size = self.view!.frame.size
         
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            if levelOneLabel.containsPoint(location) {
+            let location = touch.location(in: self)
+            if levelOneLabel.contains(location) {
                 levelOneLabel.select()
-            } else if levelTwoLabel.containsPoint(location) {
+            } else if levelTwoLabel.contains(location) {
                 levelTwoLabel.select()
-            } else if levelThreeLabel.containsPoint(location) {
+            } else if levelThreeLabel.contains(location) {
                 levelThreeLabel.select()
-            }else if levelFourLabel.containsPoint(location) {
+            }else if levelFourLabel.contains(location) {
                 levelFourLabel.select()
             } else {
                 backLabel.select()
@@ -231,16 +231,16 @@ class SelectLevelScene: SKScene {
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            if levelOneLabel.containsPoint(location) && levelOneLabel.selected == true {
+            let location = touch.location(in: self)
+            if levelOneLabel.contains(location) && levelOneLabel.selected == true {
                 goToLevelOne()
-            } else if levelTwoLabel.containsPoint(location) && levelTwoLabel.selected == true {
+            } else if levelTwoLabel.contains(location) && levelTwoLabel.selected == true {
                 goToLevelTwo()
-            } else if levelThreeLabel.containsPoint(location) && levelThreeLabel.selected == true {
+            } else if levelThreeLabel.contains(location) && levelThreeLabel.selected == true {
                 goToLevelThree()
-            }else if levelFourLabel.containsPoint(location) && levelFourLabel.selected == true {
+            }else if levelFourLabel.contains(location) && levelFourLabel.selected == true {
                 goToLevelFour()
             } else {
                 if backLabel.selected == true {
@@ -251,51 +251,51 @@ class SelectLevelScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
     
     func goBack() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.left, duration: 1.0)
         let scene = GameOverScene(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
     func goToLevelOne() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.left, duration: 1.0)
         let scene = GameScene(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
     func goToLevelTwo() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.left, duration: 1.0)
         let scene = GameSceneTwo(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
     func goToLevelThree() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.left, duration: 1.0)
         let scene = GameSceneThree(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
     func goToLevelFour() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.left, duration: 1.0)
         let scene = GameSceneFour(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
-    func getHighScore(level:Int) -> Double {
+    func getHighScore(_ level:Int) -> Double {
         var highScore = Double()
         var scoreString = String()
         switch level{
@@ -312,8 +312,8 @@ class SelectLevelScene: SKScene {
         }
         
         
-        if NSUserDefaults.standardUserDefaults().objectForKey(scoreString) != nil {
-            highScore = NSUserDefaults.standardUserDefaults().objectForKey(scoreString) as!  Double
+        if UserDefaults.standard.object(forKey: scoreString) != nil {
+            highScore = UserDefaults.standard.object(forKey: scoreString) as!  Double
         } else {
             highScore = 0.0
         }
@@ -353,7 +353,7 @@ class SelectLevelScene: SKScene {
         let localPlayer = GKLocalPlayer.localPlayer()
         localPlayer.authenticateHandler = {(viewController, error) -> Void in
             if (viewController != nil) {
-                self.view?.window?.rootViewController?.presentViewController(viewController!, animated: true, completion: nil)
+                self.view?.window?.rootViewController?.present(viewController!, animated: true, completion: nil)
             } else {
                                 //print(error)
             }

@@ -32,24 +32,24 @@ class SettingScene: SKScene, UINavigationControllerDelegate {
     var backLabelSize = CGFloat(28)
     var fontScale = CGFloat(1)
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         self.size = self.view!.frame.size
         
-        let background = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSizeMake(self.frame.width, self.frame.height))
+        let background = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("soundState") != nil {
-            soundToggle = NSUserDefaults.standardUserDefaults().boolForKey("soundState")
+        if UserDefaults.standard.object(forKey: "soundState") != nil {
+            soundToggle = UserDefaults.standard.bool(forKey: "soundState")
         } else {
             soundToggle = true
         }
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("startupState") != nil {
-            startupToggle = NSUserDefaults.standardUserDefaults().boolForKey("startupState")
+        if UserDefaults.standard.object(forKey: "startupState") != nil {
+            startupToggle = UserDefaults.standard.bool(forKey: "startupState")
         } else {
             startupToggle = false
         }
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             fontScale = 1.5
         }
         labelSize = labelSize * fontScale
@@ -58,77 +58,77 @@ class SettingScene: SKScene, UINavigationControllerDelegate {
         
         titleLabel.fontName = titleFontName
         titleLabel.fontSize = titleSize
-        titleLabel.fontColor = UIColor.blackColor()
+        titleLabel.fontColor = UIColor.black
         titleLabel.text = "Settings"
-        titleLabel.position = CGPointMake(self.frame.midX, self.frame.midY * 5 / 3)
-        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Bottom
+        titleLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY * 5 / 3)
+        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.bottom
         self.addChild(titleLabel)
         
         backgroundLabel.fontName = fontName
         backgroundLabel.fontSize = labelSize
-        backgroundLabel.fontColor = UIColor.blackColor()
+        backgroundLabel.fontColor = UIColor.black
         backgroundLabel.text = "Set Background"
-        backgroundLabel.position = CGPointMake(20, self.frame.midY * 4 / 3)
-        backgroundLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        backgroundLabel.position = CGPoint(x: 20, y: self.frame.midY * 4 / 3)
+        backgroundLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         self.addChild(backgroundLabel)
         
         soundsLabel.fontName = fontName
         soundsLabel.fontSize = labelSize
-        soundsLabel.fontColor = UIColor.blackColor()
+        soundsLabel.fontColor = UIColor.black
         if soundToggle == true {
             soundsLabel.text = "Turn Sounds Off"
         } else {
             soundsLabel.text = "Turn Sounds On"
         }
-        soundsLabel.position = CGPointMake(20, self.frame.midY)
-        soundsLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        soundsLabel.position = CGPoint(x: 20, y: self.frame.midY)
+        soundsLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         self.addChild(soundsLabel)
         
         tutorialLabel.fontName = fontName
         tutorialLabel.fontSize = labelSize
-        tutorialLabel.fontColor = UIColor.blackColor()
+        tutorialLabel.fontColor = UIColor.black
         tutorialLabel.text = "Replay Tutorial"
-        tutorialLabel.position = CGPointMake(20, self.frame.midY * 2 / 3)
-        tutorialLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        tutorialLabel.position = CGPoint(x: 20, y: self.frame.midY * 2 / 3)
+        tutorialLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         self.addChild(tutorialLabel)
         
         startupLabel.fontName = fontName
         startupLabel.fontSize = labelSize
-        startupLabel.fontColor = UIColor.blackColor()
+        startupLabel.fontColor = UIColor.black
         if startupToggle == true {
             startupLabel.text = "Open Level Menu"
         } else {
             startupLabel.text = "Open in Game"
         }
-        startupLabel.position = CGPointMake(self.frame.midX + 20, self.frame.midY * 4 / 3)
-        startupLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        startupLabel.position = CGPoint(x: self.frame.midX + 20, y: self.frame.midY * 4 / 3)
+        startupLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         self.addChild(startupLabel)
 
         
         backLabel.fontName = backFontName
         backLabel.fontSize = backLabelSize
-        backLabel.fontColor = UIColor.blackColor()
+        backLabel.fontColor = UIColor.black
         backLabel.text = "Tap to Go Back"
-        backLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)  * 1 / 3)
+        backLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY  * 1 / 3)
         self.addChild(backLabel)
 
-        background.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(background)
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         self.size = self.view!.frame.size
         
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            if backgroundLabel.containsPoint(location) {
+            let location = touch.location(in: self)
+            if backgroundLabel.contains(location) {
                 backgroundLabel.select()
-            } else if soundsLabel.containsPoint(location) {
+            } else if soundsLabel.contains(location) {
                 soundsLabel.select()
-            } else if startupLabel.containsPoint(location) {
+            } else if startupLabel.contains(location) {
                 startupLabel.select()
-            } else if tutorialLabel.containsPoint(location){
+            } else if tutorialLabel.contains(location){
                 tutorialLabel.select()
             } else {
                 backLabel.select()
@@ -136,35 +136,35 @@ class SettingScene: SKScene, UINavigationControllerDelegate {
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            if backgroundLabel.containsPoint(location) && backgroundLabel.selected == true {
+            let location = touch.location(in: self)
+            if backgroundLabel.contains(location) && backgroundLabel.selected == true {
                 backgroundLabel.deselect()
                 chooseBackground()
-            } else if soundsLabel.containsPoint(location) && soundsLabel.selected == true {
+            } else if soundsLabel.contains(location) && soundsLabel.selected == true {
                 soundsLabel.deselect()
                 if self.soundToggle == true {
-                    NSUserDefaults.standardUserDefaults().setBool(false, forKey: "soundState")
+                    UserDefaults.standard.set(false, forKey: "soundState")
                     self.soundToggle = false
                     self.soundsLabel.text = "Turn Sounds On"
                 } else {
-                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "soundState")
+                    UserDefaults.standard.set(true, forKey: "soundState")
                     self.soundToggle = true
                     self.soundsLabel.text = "Turn Sounds Off"
                 }
-            } else if startupLabel.containsPoint(location) && startupLabel.selected == true {
+            } else if startupLabel.contains(location) && startupLabel.selected == true {
                 startupLabel.deselect()
                 if self.startupToggle == true {
-                    NSUserDefaults.standardUserDefaults().setBool(false, forKey: "startupState")
+                    UserDefaults.standard.set(false, forKey: "startupState")
                     self.startupToggle = false
                     self.startupLabel.text = "Open in Game"
                 } else {
-                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "startupState")
+                    UserDefaults.standard.set(true, forKey: "startupState")
                     self.startupToggle = true
                     self.startupLabel.text = "Open Level Menu"
                 }
-            } else if tutorialLabel.containsPoint(location) && tutorialLabel.selected == true {
+            } else if tutorialLabel.contains(location) && tutorialLabel.selected == true {
                 tutorialLabel.deselect()
                 replayTutorial()
             } else {
@@ -177,50 +177,50 @@ class SettingScene: SKScene, UINavigationControllerDelegate {
     }
     
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
     
     func goBack() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.down, duration: 1.0)
         let scene = GameOverScene(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
     func chooseBackground() {
         let access = PHPhotoLibrary.authorizationStatus()
-        if access == .Authorized {
+        if access == .authorized {
             let imagePicker = LandscapePhotoPicker()
             let vc = self.view?.window?.rootViewController
-            vc?.presentViewController(imagePicker, animated: true, completion: nil)
+            vc?.present(imagePicker, animated: true, completion: nil)
         } else {
-            let alert = UIAlertController(title: "Photo Library Access Not Enabled", message: "Please allow access in settings", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.Default, handler: { alertAction in
-                alert.dismissViewControllerAnimated(true, completion: nil)
+            let alert = UIAlertController(title: "Photo Library Access Not Enabled", message: "Please allow access in settings", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.default, handler: { alertAction in
+                alert.dismiss(animated: true, completion: nil)
                 
-                let url: NSURL? = NSURL(string: UIApplicationOpenSettingsURLString)
+                let url: URL? = URL(string: UIApplicationOpenSettingsURLString)
                 if url != nil
                 {
-                    UIApplication.sharedApplication().openURL(url!)
+                    UIApplication.shared.openURL(url!)
                 }
                 
             }))
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { alertAction in
-                alert.dismissViewControllerAnimated(true, completion: nil)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { alertAction in
+                alert.dismiss(animated: true, completion: nil)
             }))
-            self.view?.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+            self.view?.window?.rootViewController!.present(alert, animated: true, completion: nil)
         }
         
     }
     
     func replayTutorial() {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "hasCompletedTutorial")
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0)
+        UserDefaults.standard.set(false, forKey: "hasCompletedTutorial")
+        let transition = SKTransition.push(with: SKTransitionDirection.left, duration: 1.0)
         let scene = GameScene(size: self.size)
         
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     

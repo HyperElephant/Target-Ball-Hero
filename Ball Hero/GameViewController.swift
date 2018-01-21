@@ -11,13 +11,13 @@ import SpriteKit
 import iAd
 
 extension SKNode {
-    class func unarchiveFromFile(file : NSString) -> SKNode? {
-        if let path = NSBundle.mainBundle().pathForResource(file as String, ofType: "sks") {
-            let sceneData = try! NSData(contentsOfFile: path, options: .DataReadingMappedIfSafe)
-            let archiver = NSKeyedUnarchiver(forReadingWithData: sceneData)
+    class func unarchiveFromFile(_ file : NSString) -> SKNode? {
+        if let path = Bundle.main.path(forResource: file as String, ofType: "sks") {
+            let sceneData = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+            let archiver = NSKeyedUnarchiver(forReadingWith: sceneData)
             
             archiver.setClass(self.classForKeyedUnarchiver(), forClassName: "SKScene")
-            let scene = archiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as! GameScene
+            let scene = archiver.decodeObject(forKey: NSKeyedArchiveRootObjectKey) as! GameScene
             archiver.finishDecoding()
             return scene
         } else {
@@ -37,19 +37,19 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
         super.viewDidLoad()
         var directToGame = false
         
-        removeAds = NSUserDefaults.standardUserDefaults().boolForKey("RemoveAds")
+        removeAds = UserDefaults.standard.bool(forKey: "RemoveAds")
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("currentLevel") != nil {
-            currentLevel = NSUserDefaults.standardUserDefaults().objectForKey("currentLevel") as! Int
+        if UserDefaults.standard.object(forKey: "currentLevel") != nil {
+            currentLevel = UserDefaults.standard.object(forKey: "currentLevel") as! Int
         }
         
-        if NSUserDefaults.standardUserDefaults().objectForKey("startupState") != nil {
-            directToGame = NSUserDefaults.standardUserDefaults().boolForKey("startupState")
+        if UserDefaults.standard.object(forKey: "startupState") != nil {
+            directToGame = UserDefaults.standard.bool(forKey: "startupState")
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.removeBannerAds), name: "removeAds", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.removeBannerAds), name: NSNotification.Name(rawValue: "removeAds"), object: nil)
         
-        iAdBanner.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.width, iAdBanner.bounds.height)
+        iAdBanner.frame = CGRect(x: 0, y: self.view.frame.size.height, width: self.view.frame.width, height: iAdBanner.bounds.height)
         iAdBanner.delegate = self
         bannerVisible = false
         
@@ -65,7 +65,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
                     skView.ignoresSiblingOrder = true
                     
                     /* Set the scale mode to scale to fit the window */
-                    scene.scaleMode = .AspectFill
+                    scene.scaleMode = .aspectFill
                     
                     skView.presentScene(scene)
                 }
@@ -80,7 +80,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
                 skView.ignoresSiblingOrder = true
                 
                 /* Set the scale mode to scale to fit the window */
-                scene.scaleMode = .AspectFill
+                scene.scaleMode = .aspectFill
                 
                 skView.presentScene(scene)
                 
@@ -95,7 +95,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
                 skView.ignoresSiblingOrder = true
                 
                 /* Set the scale mode to scale to fit the window */
-                scene.scaleMode = .AspectFill
+                scene.scaleMode = .aspectFill
                 
                 skView.presentScene(scene)
                 
@@ -110,7 +110,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
                 skView.ignoresSiblingOrder = true
                 
                 /* Set the scale mode to scale to fit the window */
-                scene.scaleMode = .AspectFill
+                scene.scaleMode = .aspectFill
                 
                 skView.presentScene(scene)
                 
@@ -127,14 +127,14 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             
             skView.presentScene(scene)
         }
 
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
 
@@ -143,15 +143,15 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
     // Show banner, if Ad is successfully loaded.
-    func bannerViewDidLoadAd(banner: ADBannerView!) {
+    func bannerViewDidLoadAd(_ banner: ADBannerView!) {
         if(bannerVisible == false) {
             
-            removeAds = NSUserDefaults.standardUserDefaults().boolForKey("RemoveAds")
+            removeAds = UserDefaults.standard.bool(forKey: "RemoveAds")
 
             // Add banner Ad to the view
             if(iAdBanner.superview == nil && removeAds == false) {
@@ -159,7 +159,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
             }
             // Move banner into visible screen frame:
             UIView.beginAnimations("iAdBannerShow", context: nil)
-            banner.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height)
+            banner.frame = banner.frame.offsetBy(dx: 0, dy: -banner.frame.size.height)
             UIView.commitAnimations()
             
             bannerVisible = true
@@ -167,11 +167,11 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
     }
     
     // Hide banner, if Ad is not loaded.
-    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+    func bannerView(_ banner: ADBannerView!, didFailToReceiveAdWithError error: Error!) {
         if(bannerVisible == true) {
             // Move banner below screen frame:
             UIView.beginAnimations("iAdBannerHide", context: nil)
-            banner.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height)
+            banner.frame = banner.frame.offsetBy(dx: 0, dy: banner.frame.size.height)
             UIView.commitAnimations()
             bannerVisible = false
         }

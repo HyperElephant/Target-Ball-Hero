@@ -55,8 +55,8 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
     var tutorialStage = 1
     
     //Timed
-    var timer = NSTimer()
-    var timerSpeed = NSTimeInterval()
+    var timer = Timer()
+    var timerSpeed = TimeInterval()
     var startLabel = SKLabelNode()
     var hasStarted = false
     var timerProgress = 1
@@ -67,19 +67,19 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
     var bar5 = SKSpriteNode()
     var remainingBars = [SKSpriteNode()]
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         self.size = self.view!.frame.size
         
-        NSUserDefaults.standardUserDefaults().setObject(4, forKey: "currentLevel")
+        UserDefaults.standard.set(4, forKey: "currentLevel")
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameSceneFour.updateContinues), name: "updateContinues", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GameSceneFour.updateContinues), name: NSNotification.Name(rawValue: "updateContinues"), object: nil)
         
         
-        let completedTutorial = NSUserDefaults.standardUserDefaults().boolForKey("hasCompletedTutorial")
+        let completedTutorial = UserDefaults.standard.bool(forKey: "hasCompletedTutorial")
         authenticateLocalPlayer()
         self.addChild(labelHolder)
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             fontScale = 1.5
         }
         
@@ -87,9 +87,9 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         
         scoreLabel.fontName = fontName
         scoreLabel.fontSize = 64 * fontScale
-        scoreLabel.fontColor = UIColor.blackColor()
+        scoreLabel.fontColor = UIColor.black
         scoreLabel.text = "0"
-        scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame), self.frame.size.height * 2 / 3)
+        scoreLabel.position = CGPoint(x: self.frame.midX, y: self.frame.size.height * 2 / 3)
         scoreLabel.zPosition = 70
         labelHolder.addChild(scoreLabel)
         let bg = getBackground()
@@ -98,23 +98,23 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         
         addTimerBar()
         
-        startLabel.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        startLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         startLabel.text = "Tap to Start"
         startLabel.fontSize = 64 * fontScale
-        startLabel.fontColor = UIColor.blackColor()
+        startLabel.fontColor = UIColor.black
         self.addChild(startLabel)
         
-        bg.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
+        bg.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(bg)
-        let groundRect = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width * 5, 1)
+        let groundRect = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width * 5, height: 1)
         let ground = SKNode()
-        ground.position = CGPointMake(0, 0)
-        ground.physicsBody = SKPhysicsBody(edgeLoopFromRect: groundRect)
+        ground.position = CGPoint(x: 0, y: 0)
+        ground.physicsBody = SKPhysicsBody(edgeLoopFrom: groundRect)
         self.addChild(ground)
         ground.physicsBody?.categoryBitMask = groundGroup
         makeTarget()
-        if NSUserDefaults.standardUserDefaults().objectForKey("soundState") != nil {
-            soundToggle = NSUserDefaults.standardUserDefaults().boolForKey("soundState")
+        if UserDefaults.standard.object(forKey: "soundState") != nil {
+            soundToggle = UserDefaults.standard.bool(forKey: "soundState")
         } else {
             soundToggle = true
         }
@@ -125,24 +125,24 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         self.size = self.view!.frame.size
         
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             
             if inContinue == false && inTutorial == false && hasStarted == true {
                 let ballWidth = self.frame.size.height / 30
                 let dx = (location.x) * 2
-                let dy = (location.y - CGRectGetMidY(self.frame)) * 4
+                let dy = (location.y - self.frame.midY) * 4
                 let ball = SKShapeNode(circleOfRadius: ballWidth)
                 ball.fillColor = UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1)
                 ball.strokeColor = UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1)
-                ball.position = CGPoint(x: 0, y: CGRectGetMidY(self.frame))
+                ball.position = CGPoint(x: 0, y: self.frame.midY)
                 ball.physicsBody = SKPhysicsBody(circleOfRadius: ballWidth)
-                ball.physicsBody?.dynamic = true
-                ball.physicsBody?.velocity = CGVectorMake(dx, dy)
+                ball.physicsBody?.isDynamic = true
+                ball.physicsBody?.velocity = CGVector(dx: dx, dy: dy)
                 ball.name = ballGroupName
                 ball.zPosition = 10
                 ball.physicsBody?.categoryBitMask = ballGroup
@@ -150,38 +150,38 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
                 self.addChild(ball)
                 
                 if soundToggle == true {
-                    self.runAction(ballSound)
+                    self.run(ballSound)
                 }
             } else if inContinue == true {
-                if yesLabel.containsPoint(location) {
+                if yesLabel.contains(location) {
                     if continueNum > 0 {
                         continueNum -= 1
-                        NSUserDefaults.standardUserDefaults().setInteger(continueNum, forKey: "continues")
+                        UserDefaults.standard.set(continueNum, forKey: "continues")
                         continueMenu(false)
                     } else {
-                        let alert = UIAlertController(title: "No Continues Left", message: "Buy more at the store.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: { (alert) -> Void in
+                        let alert = UIAlertController(title: "No Continues Left", message: "Buy more at the store.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
                             self.gameOver()
                         }))
-                        alert.addAction(UIAlertAction(title: "Store", style: UIAlertActionStyle.Default, handler: { (alert) -> Void in
+                        alert.addAction(UIAlertAction(title: "Store", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
                             self.showStore()
                         }))
-                        self.view?.window?.rootViewController!.presentViewController(alert, animated: true, completion: nil)
+                        self.view?.window?.rootViewController!.present(alert, animated: true, completion: nil)
                     }
                     
-                } else if noLabel.containsPoint(location) {
+                } else if noLabel.contains(location) {
                     gameOver()
                 } else {
                     score = 0
-                    scoreLabel.fontColor = UIColor.blackColor()
+                    scoreLabel.fontColor = UIColor.black
                     updateTimerSpeed()
                     scoreLabel.text = "\(Int(score))"
                     let dropDist = self.frame.size.height / 3
-                    let dropOut = SKAction.moveBy(CGVector(dx: 0, dy: -dropDist), duration: 0.25)
-                    targetObjects.runAction(dropOut, completion: { () -> Void in
-                        let targetsMoveUp = SKAction.moveBy(CGVector(dx: 0, dy: dropDist), duration: 0)
+                    let dropOut = SKAction.move(by: CGVector(dx: 0, dy: -dropDist), duration: 0.25)
+                    targetObjects.run(dropOut, completion: { () -> Void in
+                        let targetsMoveUp = SKAction.move(by: CGVector(dx: 0, dy: dropDist), duration: 0)
                         self.targetObjects.removeAllChildren()
-                        self.targetObjects.runAction(targetsMoveUp)
+                        self.targetObjects.run(targetsMoveUp)
                         self.makeTarget()
                     })
                     continueMenu(false)
@@ -191,16 +191,16 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
             } else if hasStarted == false {
                 hasStarted = true
                 startLabel.removeFromParent()
-                timer = NSTimer.scheduledTimerWithTimeInterval(timerSpeed, target: self, selector: #selector(GameSceneFour.updateTimer), userInfo: nil, repeats: true)
+                timer = Timer.scheduledTimer(timeInterval: timerSpeed, target: self, selector: #selector(GameSceneFour.updateTimer), userInfo: nil, repeats: true)
             }
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         self.size = self.view!.frame.size
         
         let dropDist = self.frame.size.height / 3
@@ -216,27 +216,27 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         }
         
         if firstBody.categoryBitMask == ballGroup && secondBody.categoryBitMask == targetGroup {
-            let dropOut = SKAction.moveBy(CGVector(dx: 0, dy: -dropDist), duration: 0.25)
+            let dropOut = SKAction.move(by: CGVector(dx: 0, dy: -dropDist), duration: 0.25)
             if soundToggle == true {
-                self.runAction(hitSound)
+                self.run(hitSound)
             }
             score += 1
             scoreLabel.text = "\(Int(score))"
             if highScore(score) {
-                scoreLabel.fontColor = UIColor.redColor()
+                scoreLabel.fontColor = UIColor.red
                 highTest = true
                 if score == 10 || score == 25 || score == 50 || score == 100 || score == 250 || score == 500 || score == 1000 && soundToggle == true {
-                    self.runAction(trumpetSound)
+                    self.run(trumpetSound)
                 }
             }
             firstBody.categoryBitMask = obstacleGroup
-            firstBody.node?.runAction(SKAction.fadeOutWithDuration(0.25), completion: { () -> Void in
+            firstBody.node?.run(SKAction.fadeOut(withDuration: 0.25), completion: { () -> Void in
                 firstBody.node?.removeFromParent()
             })
-            targetObjects.runAction(dropOut, completion: { () -> Void in
-                let targetsMoveUp = SKAction.moveBy(CGVector(dx: 0, dy: dropDist), duration: 0)
+            targetObjects.run(dropOut, completion: { () -> Void in
+                let targetsMoveUp = SKAction.move(by: CGVector(dx: 0, dy: dropDist), duration: 0)
                 self.targetObjects.removeAllChildren()
-                self.targetObjects.runAction(targetsMoveUp)
+                self.targetObjects.run(targetsMoveUp)
                 self.makeTarget()
             })
             updateTimerSpeed()
@@ -244,7 +244,7 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
             
         } else if firstBody.categoryBitMask == ballGroup && secondBody.categoryBitMask == groundGroup {
             firstBody.categoryBitMask = obstacleGroup
-            firstBody.node?.runAction(SKAction.fadeOutWithDuration(0.25), completion: { () -> Void in
+            firstBody.node?.run(SKAction.fadeOut(withDuration: 0.25), completion: { () -> Void in
                 firstBody.node?.removeFromParent()
             })
             
@@ -252,7 +252,7 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
                 saveHighscore(Int(score))
            // }
             if soundToggle == true {
-                self.runAction(thudSound, completion: { () -> Void in
+                self.run(thudSound, completion: { () -> Void in
                     if self.inContinue == false {
                         self.continueMenu(true)
                     }
@@ -272,7 +272,7 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         let target = SKShapeNode(circleOfRadius: targetSide)
         target.fillColor = UIColor(red: 0.937, green: 0.208, blue: 0.239, alpha: 1)
         target.strokeColor = UIColor(red: 0.937, green: 0.208, blue: 0.239, alpha: 1)
-        let targetFadeIn = SKAction.fadeInWithDuration(1)
+        let targetFadeIn = SKAction.fadeIn(withDuration: 1)
         
         let endValueX = UInt32(self.frame.size.width - targetSide * 2)
         var placementX = arc4random_uniform(endValueX)
@@ -286,7 +286,7 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         target.zPosition = 10
         
         target.physicsBody = SKPhysicsBody(circleOfRadius: targetSide)
-        target.physicsBody?.dynamic = false
+        target.physicsBody?.isDynamic = false
         target.physicsBody?.categoryBitMask = targetGroup
         
         target.name = targetGroupName
@@ -294,7 +294,7 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         target.alpha = 0
         
         targetObjects.addChild(target)
-        target.runAction(targetFadeIn)
+        target.run(targetFadeIn)
     }
     
     func updateTimerSpeed() {
@@ -305,21 +305,21 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         timerSpeed = speed
     }
     
-    func highScore(score: Double) -> Bool {
+    func highScore(_ score: Double) -> Bool {
         var isHigh = Bool()
-        if NSUserDefaults.standardUserDefaults().objectForKey("highScoreLevelFour") != nil {
-            let oldScore = NSUserDefaults.standardUserDefaults().objectForKey("highScoreLevelFour") as! Double
+        if UserDefaults.standard.object(forKey: "highScoreLevelFour") != nil {
+            let oldScore = UserDefaults.standard.object(forKey: "highScoreLevelFour") as! Double
             if score > oldScore {
-                NSUserDefaults.standardUserDefaults().setObject(score, forKey: "highScoreLevelFour")
+                UserDefaults.standard.set(score, forKey: "highScoreLevelFour")
                 isHigh = true
             } else {
                 isHigh = false
             }
         } else {
-            NSUserDefaults.standardUserDefaults().setObject(score, forKey: "highScoreLevelFour")
+            UserDefaults.standard.set(score, forKey: "highScoreLevelFour")
             isHigh = true
         }
-        NSUserDefaults.standardUserDefaults().setObject(score, forKey: "lastScore")
+        UserDefaults.standard.set(score, forKey: "lastScore")
         return isHigh
     }
     
@@ -327,19 +327,19 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         let localPlayer = GKLocalPlayer.localPlayer()
         localPlayer.authenticateHandler = {(viewController, error) -> Void in
             if (viewController != nil) {
-                self.view?.window?.rootViewController?.presentViewController(viewController!, animated: true, completion: nil)
+                self.view?.window?.rootViewController?.present(viewController!, animated: true, completion: nil)
             } else {
                 //                println(error)
             }
         }
     }
     
-    func saveHighscore(score:Int) {
-        if GKLocalPlayer.localPlayer().authenticated {
+    func saveHighscore(_ score:Int) {
+        if GKLocalPlayer.localPlayer().isAuthenticated {
             let scoreReporter = GKScore(leaderboardIdentifier: "targetballheroleaderboardlevelfour74656")
             scoreReporter.value = Int64(score)
             let scoreArray: [GKScore] = [scoreReporter]
-            GKScore.reportScores(scoreArray, withCompletionHandler: { (error: NSError?) -> Void in
+            GKScore.report(scoreArray, withCompletionHandler: { (error: Error?) -> Void in
                 if error != nil {
                     //                    println(error)
                 }
@@ -347,72 +347,72 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         }
     }
     
-    func continueMenu(toggleContinue:Bool) {
+    func continueMenu(_ toggleContinue:Bool) {
         self.size = self.view!.frame.size
         inContinue = true
-        continueNum = NSUserDefaults.standardUserDefaults().integerForKey("continues")
+        continueNum = UserDefaults.standard.integer(forKey: "continues")
         
         if toggleContinue == true {
-            continuePane.size = CGSizeMake(self.frame.width, self.frame.height)
-            continuePane.color = UIColor.blackColor()
-            continuePane.position = CGPointMake(self.frame.midX, self.frame.midY)
+            continuePane.size = CGSize(width: self.frame.width, height: self.frame.height)
+            continuePane.color = UIColor.black
+            continuePane.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
             continuePane.alpha = 0
             continuePane.zPosition = 80
             self.addChild(continuePane)
             
             continueLabel.text = "Continue?"
             continueLabel.fontSize = 64 * fontScale
-            continueLabel.position = CGPointMake(self.frame.midX, self.frame.height * 2/3)
+            continueLabel.position = CGPoint(x: self.frame.midX, y: self.frame.height * 2/3)
             continueLabel.zPosition = 81
             continueLabel.fontName = fontName
             self.addChild(continueLabel)
             
             noLabel.text = "No"
-            noLabel.position = CGPointMake(self.frame.width / 3, self.frame.height / 2)
+            noLabel.position = CGPoint(x: self.frame.width / 3, y: self.frame.height / 2)
             noLabel.fontSize = 32 * fontScale
             noLabel.zPosition = 81
             noLabel.fontName = fontName
             self.addChild(noLabel)
             
             yesLabel.text = "Yes (\(continueNum))"
-            yesLabel.position = CGPointMake(self.frame.width * 2/3, self.frame.height / 2)
+            yesLabel.position = CGPoint(x: self.frame.width * 2/3, y: self.frame.height / 2)
             yesLabel.fontSize = 32 * fontScale
             yesLabel.zPosition = 81
             yesLabel.fontName = fontName
             self.addChild(yesLabel)
             
             restartLabel.text = "Restart"
-            restartLabel.position = CGPointMake(self.frame.width / 2, self.frame.height / 3)
+            restartLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 3)
             restartLabel.fontSize = 32 * fontScale
             restartLabel.zPosition = 81
             restartLabel.fontName = "HelveticaNeue-Light"
             self.addChild(restartLabel)
             
-            let fadeIn = SKAction.fadeAlphaTo(0.7, duration: 0.8)
-            let fadeInLetters = SKAction.fadeAlphaTo(1.0, duration: 0.8)
-            continuePane.runAction(fadeIn)
-            continueLabel.runAction(fadeInLetters)
-            yesLabel.runAction(fadeInLetters)
-            noLabel.runAction(fadeInLetters)
-            restartLabel.runAction(fadeInLetters)
+            let fadeIn = SKAction.fadeAlpha(to: 0.7, duration: 0.8)
+            let fadeInLetters = SKAction.fadeAlpha(to: 1.0, duration: 0.8)
+            continuePane.run(fadeIn)
+            continueLabel.run(fadeInLetters)
+            yesLabel.run(fadeInLetters)
+            noLabel.run(fadeInLetters)
+            restartLabel.run(fadeInLetters)
         } else {
             continuePane.removeFromParent()
             continueLabel.removeFromParent()
             yesLabel.removeFromParent()
             noLabel.removeFromParent()
             restartLabel.removeFromParent()
-            scoreLabel.fontColor = UIColor.blackColor()
+            scoreLabel.fontColor = UIColor.black
             resetTimer()
             inContinue = false
         }
     }
     
     func resetTimer() {
-        self.removeChildrenInArray(remainingBars)
+        self.removeChildren(in: remainingBars)
         addTimerBar()
         timer.invalidate()
         timerProgress = 1
-        timer = NSTimer.scheduledTimerWithTimeInterval(timerSpeed, target: self, selector: #selector(GameSceneFour.updateTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: timerSpeed, target: self, selector: #selector(GameSceneFour.updateTimer), userInfo: nil, repeats: true)
     }
     
     func addTimerBar() {
@@ -420,43 +420,43 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         let barHeight = self.frame.height / 20
         let barSpace = self.frame.width / 5
         let barWidth = barSpace - 10
-        bar1.size = CGSizeMake(barWidth, barHeight)
-        bar1.color = UIColor.blackColor()
-        bar1.position = CGPointMake(barSpace - barSpace / 2, self.frame.height - barHeight / 2)
+        bar1.size = CGSize(width: barWidth, height: barHeight)
+        bar1.color = UIColor.black
+        bar1.position = CGPoint(x: barSpace - barSpace / 2, y: self.frame.height - barHeight / 2)
         bar1.alpha = 0.9
         bar1.zPosition = 80
         self.addChild(bar1)
-        bar2.size = CGSizeMake(barWidth, barHeight)
-        bar2.color = UIColor.blackColor()
-        bar2.position = CGPointMake(barSpace * 2 - barSpace / 2, self.frame.height - barHeight / 2)
+        bar2.size = CGSize(width: barWidth, height: barHeight)
+        bar2.color = UIColor.black
+        bar2.position = CGPoint(x: barSpace * 2 - barSpace / 2, y: self.frame.height - barHeight / 2)
         bar2.alpha = 0.9
         bar2.zPosition = 80
         self.addChild(bar2)
-        bar3.size = CGSizeMake(barWidth, barHeight)
-        bar3.color = UIColor.blackColor()
-        bar3.position = CGPointMake(barSpace * 3 - barSpace / 2, self.frame.height - barHeight / 2)
+        bar3.size = CGSize(width: barWidth, height: barHeight)
+        bar3.color = UIColor.black
+        bar3.position = CGPoint(x: barSpace * 3 - barSpace / 2, y: self.frame.height - barHeight / 2)
         bar3.alpha = 0.9
         bar3.zPosition = 80
         self.addChild(bar3)
-        bar4.size = CGSizeMake(barWidth, barHeight)
-        bar4.color = UIColor.blackColor()
-        bar4.position = CGPointMake(barSpace * 4 - barSpace / 2, self.frame.height - barHeight / 2)
+        bar4.size = CGSize(width: barWidth, height: barHeight)
+        bar4.color = UIColor.black
+        bar4.position = CGPoint(x: barSpace * 4 - barSpace / 2, y: self.frame.height - barHeight / 2)
         bar4.alpha = 0.9
         bar4.zPosition = 80
         self.addChild(bar4)
-        bar5.size = CGSizeMake(barWidth, barHeight)
-        bar5.color = UIColor.blackColor()
-        bar5.position = CGPointMake(barSpace * 5 - barSpace / 2, self.frame.height - barHeight / 2)
+        bar5.size = CGSize(width: barWidth, height: barHeight)
+        bar5.color = UIColor.black
+        bar5.position = CGPoint(x: barSpace * 5 - barSpace / 2, y: self.frame.height - barHeight / 2)
         bar5.alpha = 0.9
         bar5.zPosition = 80
         self.addChild(bar5)
         
     }
     
-    func tutorial(stage: Int) {
-        tutorialPane.color = UIColor.blackColor()
+    func tutorial(_ stage: Int) {
+        tutorialPane.color = UIColor.black
         tutorialPane.size = self.size
-        tutorialPane.position = CGPointMake(self.frame.midX, self.frame.midY)
+        tutorialPane.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         tutorialPane.alpha = 0.6
         tutorialLabel.text = "Tutorial"
         tutorialLabel.fontName = fontName
@@ -477,14 +477,14 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         
         switch stage {
         case 1:
-            tutorialLabel.position = CGPointMake(self.frame.midX, self.frame.height * 7 / 8)
-            tutorialNext.position = CGPointMake(self.frame.midX, self.frame.height * 1 / 8)
-            arrow.position = CGPointMake(arrow.size.height / 2 + 10, self.frame.midY)
+            tutorialLabel.position = CGPoint(x: self.frame.midX, y: self.frame.height * 7 / 8)
+            tutorialNext.position = CGPoint(x: self.frame.midX, y: self.frame.height * 1 / 8)
+            arrow.position = CGPoint(x: arrow.size.height / 2 + 10, y: self.frame.midY)
             arrow.zRotation = CGFloat(M_PI_2)
             infoLabel.text = "The ball enters from here"
-            infoLabel.position = CGPointMake(arrow.size.height + 10, self.frame.midY)
-            infoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-            infoLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+            infoLabel.position = CGPoint(x: arrow.size.height + 10, y: self.frame.midY)
+            infoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
+            infoLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
             self.addChild(tutorialPane)
             self.addChild(tutorialLabel)
             self.addChild(infoLabel)
@@ -492,16 +492,16 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
             self.addChild(tutorialNext)
             tutorialStage += 1
         case 2:
-            arrow.position = CGPointMake(self.frame.midX, self.frame.height * 2 / 5 + 10)
+            arrow.position = CGPoint(x: self.frame.midX, y: self.frame.height * 2 / 5 + 10)
             arrow.zRotation = CGFloat(M_PI)
             infoLabel.text = "The targets will appear along here"
-            infoLabel.position = CGPointMake(self.frame.midX, self.frame.height * 2 / 5 + arrow.size.height / 2 + 25)
-            infoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-            infoLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+            infoLabel.position = CGPoint(x: self.frame.midX, y: self.frame.height * 2 / 5 + arrow.size.height / 2 + 25)
+            infoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+            infoLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
             tutorialStage += 1
         case 3:
             arrow.alpha = 0
-            infoLabel.position = CGPointMake(self.frame.midX, self.frame.midY)
+            infoLabel.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
             infoLabel.text = "Tap anywhere on the screen to release a ball"
             tutorialStage += 1
         case 4:
@@ -510,12 +510,12 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         case 5:
             infoLabel.text = "Tap here to send the ball slowly downward"
             arrow.alpha = 1
-            arrow.position = CGPointMake(self.frame.width / 4, self.frame.height / 4)
+            arrow.position = CGPoint(x: self.frame.width / 4, y: self.frame.height / 4)
             arrow.zRotation = CGFloat(M_PI_2 + 0.4)
             tutorialStage += 1
         case 6:
             infoLabel.text = "Tap here to send the ball quickly upward"
-            arrow.position = CGPointMake(self.frame.width * 3/4, self.frame.height * 3/4)
+            arrow.position = CGPoint(x: self.frame.width * 3/4, y: self.frame.height * 3/4)
             arrow.zRotation = CGFloat(-M_PI_2 + 0.4)
             tutorialStage += 1
         case 7:
@@ -545,27 +545,27 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
             tutorialNext.removeFromParent()
             tutorialStage = 1
             inTutorial = false
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasCompletedTutorial")
+            UserDefaults.standard.set(true, forKey: "hasCompletedTutorial")
         default:
             break
         }
     }
     
     func gameOver() {
-        let transition = SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1.0)
+        let transition = SKTransition.push(with: SKTransitionDirection.right, duration: 1.0)
         let scene = GameOverScene(size: self.size)
-        scene.scaleMode = SKSceneScaleMode.AspectFill
+        scene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene?.view?.presentScene(scene, transition: transition)
     }
     
     func showStore() {
         let vc = self.view?.window?.rootViewController
         let sc = StoreViewController()
-        vc?.presentViewController(sc, animated: true, completion: nil)
+        vc?.present(sc, animated: true, completion: nil)
     }
     
     func updateContinues() {
-        continueNum = NSUserDefaults.standardUserDefaults().integerForKey("continues")
+        continueNum = UserDefaults.standard.integer(forKey: "continues")
         yesLabel.text = "Yes (\(continueNum))"
     }
     
@@ -573,23 +573,23 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
         switch timerProgress {
         case 1:
             bar1.removeFromParent()
-            remainingBars.removeAtIndex(0)
+            remainingBars.remove(at: 0)
             timerProgress += 1
         case 2:
             bar2.removeFromParent()
-            remainingBars.removeAtIndex(0)
+            remainingBars.remove(at: 0)
             timerProgress += 1
         case 3:
             bar3.removeFromParent()
-            remainingBars.removeAtIndex(0)
+            remainingBars.remove(at: 0)
             timerProgress += 1
         case 4:
             bar4.removeFromParent()
-            remainingBars.removeAtIndex(0)
+            remainingBars.remove(at: 0)
             timerProgress += 1
         case 5:
             bar5.removeFromParent()
-            remainingBars.removeAtIndex(0)
+            remainingBars.remove(at: 0)
             timerProgress += 1
         default:
             timer.invalidate()
@@ -604,44 +604,44 @@ class GameSceneFour: SKScene, SKPhysicsContactDelegate  {
     func getBackground() -> SKSpriteNode {
         var bg = SKSpriteNode()
         var authorizationStatus = PHPhotoLibrary.authorizationStatus()
-        if NSUserDefaults.standardUserDefaults().objectForKey("backgroundID") != nil && authorizationStatus == .Authorized{
-            var images: PHFetchResult!
+        if UserDefaults.standard.object(forKey: "backgroundID") != nil && authorizationStatus == .authorized{
+            var images: PHFetchResult<PHAsset>!
             let imageManager = PHImageManager()
             var backgroundID : [String] = []
             
-            backgroundID.append(NSUserDefaults.standardUserDefaults().objectForKey("backgroundID")! as! String)
-            images = PHAsset.fetchAssetsWithLocalIdentifiers(backgroundID, options: nil)
+            backgroundID.append(UserDefaults.standard.object(forKey: "backgroundID")! as! String)
+            images = PHAsset.fetchAssets(withLocalIdentifiers: backgroundID, options: nil)
             var backgroundImage = UIImage()
             var options:PHImageRequestOptions = PHImageRequestOptions()
-            options.synchronous = true
+            options.isSynchronous = true
             var imageAsset: PHAsset? {
                 didSet {
-                    imageManager.requestImageForAsset(imageAsset!, targetSize:CGSize(width: self.frame.width * 8, height: self.frame.height * 8), contentMode: .AspectFill, options: options) { image, info in
+                    imageManager.requestImage(for: imageAsset!, targetSize:CGSize(width: self.frame.width * 8, height: self.frame.height * 8), contentMode: .aspectFill, options: options) { image, info in
                         if image != nil {
                             let texture = SKTexture(image: image!)
                             bg = SKSpriteNode(texture: texture, size: self.frame.size)
                             
                             switch image!.imageOrientation {
-                            case UIImageOrientation.Down:
+                            case UIImageOrientation.down:
                                 bg.yScale = -1
                                 bg.xScale = -1
-                            case UIImageOrientation.Left:
+                            case UIImageOrientation.left:
                                 bg.zRotation = CGFloat(M_PI_2)
-                            case UIImageOrientation.Right:
+                            case UIImageOrientation.right:
                                 bg.zRotation = CGFloat(-M_PI_2)
                             default:
                                 break
                             }
                             backgroundImage = image!
                         } else {
-                            bg = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSizeMake(self.frame.width, self.frame.height))
+                            bg = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
                         }
                     }
                 }
             }
-            imageAsset = images[0] as? PHAsset
+            imageAsset = images[0] 
         } else {
-            bg = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSizeMake(self.frame.width, self.frame.height))
+            bg = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
         }
         return bg
     }

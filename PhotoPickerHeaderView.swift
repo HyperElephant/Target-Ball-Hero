@@ -18,26 +18,26 @@ class PhotoPickerHeaderView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             UIScale = 1.5
         }
-        label.frame = CGRectMake(0, 0, self.bounds.width, self.bounds.height)
-        label.textAlignment = NSTextAlignment.Center
+        label.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        label.textAlignment = NSTextAlignment.center
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 26 * UIScale)
-        label.textAlignment = NSTextAlignment.Center
+        label.textAlignment = NSTextAlignment.center
         self.addSubview(label)
         
-        cancelButton.frame = CGRectMake(self.bounds.width - 100, 0, 100, 30 * UIScale)
-        cancelButton.setTitle("Cancel", forState: UIControlState.Normal)
-        cancelButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        cancelButton.backgroundColor = UIColor.clearColor()
+        cancelButton.frame = CGRect(x: self.bounds.width - 100, y: 0, width: 100, height: 30 * UIScale)
+        cancelButton.setTitle("Cancel", for: UIControlState())
+        cancelButton.setTitleColor(UIColor.black, for: UIControlState())
+        cancelButton.backgroundColor = UIColor.clear
         cancelButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         self.addSubview(cancelButton)
         
-        defaultButton.frame = CGRectMake(0, 0, 100, 30 * UIScale)
-        defaultButton.setTitle("Default", forState: UIControlState.Normal)
-        defaultButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        defaultButton.backgroundColor = UIColor.clearColor()
+        defaultButton.frame = CGRect(x: 0, y: 0, width: 100, height: 30 * UIScale)
+        defaultButton.setTitle("Default", for: UIControlState())
+        defaultButton.setTitleColor(UIColor.black, for: UIControlState())
+        defaultButton.backgroundColor = UIColor.clear
         defaultButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         self.addSubview(defaultButton)
     }
