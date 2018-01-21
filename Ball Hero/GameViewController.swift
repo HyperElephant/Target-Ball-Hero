@@ -148,7 +148,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
     }
     
     // Show banner, if Ad is successfully loaded.
-    func bannerViewDidLoadAd(_ banner: ADBannerView!) {
+    func bannerViewDidLoadAd(_ banner: ADBannerView) {
         if(bannerVisible == false) {
             
             removeAds = UserDefaults.standard.bool(forKey: "RemoveAds")
@@ -167,7 +167,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
     }
     
     // Hide banner, if Ad is not loaded.
-    func bannerView(_ banner: ADBannerView!, didFailToReceiveAdWithError error: Error!) {
+    func bannerView(_ banner: ADBannerView, didFailToReceiveAdWithError error: Error) {
         if(bannerVisible == true) {
             // Move banner below screen frame:
             UIView.beginAnimations("iAdBannerHide", context: nil)
@@ -177,7 +177,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate {
         }
     }
     
-    func removeBannerAds() {
+    @objc func removeBannerAds() {
         iAdBanner.removeFromSuperview()
     }
     

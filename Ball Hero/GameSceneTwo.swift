@@ -303,7 +303,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             let scoreArray: [GKScore] = [scoreReporter]
             GKScore.report(scoreArray, withCompletionHandler: { (error: Error?) -> Void in
                 if error != nil {
-                    print(error)
+                    print(error ?? "Error")
                 }
             })
         }
@@ -395,7 +395,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             tutorialLabel.position = CGPoint(x: self.frame.midX, y: self.frame.height * 7 / 8)
             tutorialNext.position = CGPoint(x: self.frame.midX, y: self.frame.height * 1 / 8)
             arrow.position = CGPoint(x: arrow.size.height / 2 + 10, y: self.frame.midY)
-            arrow.zRotation = CGFloat(M_PI_2)
+            arrow.zRotation = CGFloat(Double.pi / 2)
             infoLabel.text = "The ball enters from here"
             infoLabel.position = CGPoint(x: arrow.size.height + 10, y: self.frame.midY)
             infoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
@@ -408,7 +408,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             tutorialStage += 1
         case 2:
             arrow.position = CGPoint(x: self.frame.midX, y: self.frame.height * 2 / 5 + 10)
-            arrow.zRotation = CGFloat(M_PI)
+            arrow.zRotation = CGFloat(Double.pi)
             infoLabel.text = "The targets will appear along here"
             infoLabel.position = CGPoint(x: self.frame.midX, y: self.frame.height * 2 / 5 + arrow.size.height / 2 + 25)
             infoLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
@@ -426,12 +426,12 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             infoLabel.text = "Tap here to send the ball slowly downward"
             arrow.alpha = 1
             arrow.position = CGPoint(x: self.frame.width / 4, y: self.frame.height / 4)
-            arrow.zRotation = CGFloat(M_PI_2 + 0.4)
+            arrow.zRotation = CGFloat(Double.pi / 2 + 0.4)
             tutorialStage += 1
         case 6:
             infoLabel.text = "Tap here to send the ball quickly upward"
             arrow.position = CGPoint(x: self.frame.width * 3/4, y: self.frame.height * 3/4)
-            arrow.zRotation = CGFloat(-M_PI_2 + 0.4)
+            arrow.zRotation = CGFloat(-Double.pi / 2 + 0.4)
             tutorialStage += 1
         case 7:
             arrow.alpha = 0
@@ -479,7 +479,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
         vc?.present(sc, animated: true, completion: nil)
     }
     
-    func updateContinues() {
+    @objc func updateContinues() {
         continueNum = UserDefaults.standard.integer(forKey: "continues")
         yesLabel.text = "Yes (\(continueNum))"
     }
@@ -509,9 +509,9 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
                                 bg.yScale = -1
                                 bg.xScale = -1
                             case UIImageOrientation.left:
-                                bg.zRotation = CGFloat(M_PI_2)
+                                bg.zRotation = CGFloat(Double.pi / 2)
                             case UIImageOrientation.right:
-                                bg.zRotation = CGFloat(-M_PI_2)
+                                bg.zRotation = CGFloat(-Double.pi / 2)
                             default:
                                 break
                             }

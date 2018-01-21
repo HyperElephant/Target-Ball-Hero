@@ -93,7 +93,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func buyProduct(_ sender: UIButton) {
+    @objc func buyProduct(_ sender: UIButton) {
         let payment = SKPayment(product: productsArray[sender.tag])
         SKPaymentQueue.default().add(payment)
     }
@@ -137,7 +137,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func restorePurchases(_ sender: UIButton) {
+    @objc func restorePurchases(_ sender: UIButton) {
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
     }
@@ -270,7 +270,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    func closeStore(_ sender:UIButton) {
+    @objc func closeStore(_ sender:UIButton) {
         self.dismiss(animated: true, completion: nil)
 
     }

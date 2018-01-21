@@ -100,12 +100,12 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
         return view
     }
     
-    func cancelPicker(_ sender:UIButton) {
+    @objc func cancelPicker(_ sender:UIButton) {
         self.dismiss(animated: true, completion: nil)
         
     }
     
-    func defaultBackground(_ sender:UIButton) {
+    @objc func defaultBackground(_ sender:UIButton) {
         self.dismiss(animated: true, completion: nil)
         UserDefaults.standard.set(nil, forKey: "backgroundID")
     }
