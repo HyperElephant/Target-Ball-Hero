@@ -1,17 +1,16 @@
 //
-//  GameSceneTwo.swift
+//  GameBase.swift
 //  Ball Hero
 //
-//  Created by David Taylor on 9/1/15.
-//  Copyright (c) 2015 Hyper Elephant. All rights reserved.
+//  Created by David Taylor on 3/31/18.
+//  Copyright © 2018 Hyper Elephant. All rights reserved.
 //
 
+import Foundation
 import SpriteKit
 import GameKit
-import Photos
 
-class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
-    let scoreKey = "highScoreLevelTwo"
+class GameBase: SKScene, SKPhysicsContactDelegate  {
     
     var score = 0.0
     var scoreLabel = SKLabelNode()
@@ -45,6 +44,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
     var yesLabel = SKLabelNode()
     var noLabel = SKLabelNode()
     var restartLabel = SKLabelNode()
+    
     var continueNum = 0
     
     //Tutorial
@@ -59,7 +59,7 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
     override func didMove(to view: SKView) {
         self.size = self.view!.frame.size
         
-        UserDefaults.standard.set(2, forKey: "currentLevel")
+        UserDefaults.standard.set(1, forKey: "currentLevel")
         
         let completedTutorial = UserDefaults.standard.bool(forKey: "hasCompletedTutorial")
         authenticateLocalPlayer()
@@ -69,26 +69,30 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             fontScale = 1.5
         }
         
-         NotificationCenter.default.addObserver(self, selector: #selector(GameSceneTwo.updateContinues), name: NSNotification.Name(rawValue: "updateContinues"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GameScene.updateContinues), name: NSNotification.Name(rawValue: "updateContinues"), object: nil)
         scoreLabel.fontName = fontName
         scoreLabel.fontSize = 64 * fontScale
         scoreLabel.fontColor = UIColor.black
         scoreLabel.text = "0"
         scoreLabel.position = CGPoint(x: self.frame.midX, y: self.frame.size.height * 2 / 3)
-        scoreLabel.zPosition = 70
+        scoreLabel.zPosition = 7
         labelHolder.addChild(scoreLabel)
-        let bg = getBackground()
-        self.physicsWorld.contactDelegate = self
-        self.addChild(targetObjects)
+        
+        let bg = Helpers.getBackground(frame: self.frame)
         bg.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.addChild(bg)
         let groundRect = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.size.width * 5, height: 1)
         let ground = SKNode()
         ground.position = CGPoint(x: 0, y: 0)
         ground.physicsBody = SKPhysicsBody(edgeLoopFrom: groundRect)
-        self.addChild(ground)
         ground.physicsBody?.categoryBitMask = groundGroup
+        self.addChild(ground)
+        
+        self.physicsWorld.contactDelegate = self
+        self.addChild(targetObjects)
+        
         makeTarget()
+        
         if UserDefaults.standard.object(forKey: "soundState") != nil {
             soundToggle = UserDefaults.standard.bool(forKey: "soundState")
         } else {
@@ -99,174 +103,6 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             tutorial(1)
         }
         
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        /* Called when a touch begins */
-        self.size = self.view!.frame.size
-        
-        for touch: AnyObject in touches {
-            let location = touch.location(in: self)
-            
-            if inContinue == false && inTutorial == false {
-                let ballWidth = self.frame.size.height / 30
-                let dx = (location.x) * 2
-                let dy = (location.y - self.frame.midY) * 4
-                let ball = SKShapeNode(circleOfRadius: ballWidth)
-                ball.fillColor = UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1)
-                ball.strokeColor = UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1)
-                ball.position = CGPoint(x: 0, y: self.frame.midY)
-                ball.physicsBody = SKPhysicsBody(circleOfRadius: ballWidth)
-                ball.physicsBody?.isDynamic = true
-                ball.physicsBody?.velocity = CGVector(dx: dx, dy: dy)
-                ball.name = ballGroupName
-                ball.zPosition = 10
-                ball.physicsBody?.categoryBitMask = ballGroup
-                ball.physicsBody?.contactTestBitMask = targetGroup | groundGroup
-                self.addChild(ball)
-                
-                if soundToggle == true {
-                    self.run(ballSound)
-                }
-            } else if inContinue == true {
-                if yesLabel.contains(location) {
-                    if continueNum > 0 {
-                        continueNum -= 1
-                        UserDefaults.standard.set(continueNum, forKey: "continues")
-                        continueMenu(false)
-                    } else {
-                        let alert = UIAlertController(title: "No Continues Left", message: "Buy more at the store.", preferredStyle: UIAlertControllerStyle.alert)
-                        alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
-                            self.gameOver()
-                        }))
-                        alert.addAction(UIAlertAction(title: "Store", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
-                            self.showStore()
-                        }))
-                        self.view?.window?.rootViewController!.present(alert, animated: true, completion: nil)
-                    }
-                    
-                } else if noLabel.contains(location) {
-                    gameOver()
-                } else {
-                    score = 0
-                    scoreLabel.text = "\(Int(score))"
-                    let dropDist = self.frame.size.height / 3
-                    let dropOut = SKAction.move(by: CGVector(dx: 0, dy: -dropDist), duration: 0.25)
-                    targetObjects.run(dropOut, completion: { () -> Void in
-                        let targetsMoveUp = SKAction.move(by: CGVector(dx: 0, dy: dropDist), duration: 0)
-                        self.targetObjects.removeAllChildren()
-                        self.targetObjects.run(targetsMoveUp)
-                        self.makeTarget()
-                    })
-                    continueMenu(false)
-                }
-            } else if inTutorial == true {
-                tutorial(tutorialStage)
-            }
-        }
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        /* Called before each frame is rendered */
-    }
-    
-    func didBegin(_ contact: SKPhysicsContact) {
-        self.size = self.view!.frame.size
-        
-        let dropDist = self.frame.size.height / 3
-        var firstBody = SKPhysicsBody()
-        var secondBody = SKPhysicsBody()
-        
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
-        
-        if firstBody.categoryBitMask == ballGroup && secondBody.categoryBitMask == targetGroup {
-            let dropOut = SKAction.move(by: CGVector(dx: 0, dy: -dropDist), duration: 0.25)
-            if soundToggle == true {
-                self.run(hitSound)
-            }
-            score += 1
-            scoreLabel.text = "\(Int(score))"
-            if Helpers.isHighScore(score, scoreKey: scoreKey) {
-                scoreLabel.fontColor = UIColor.red
-                highTest = true
-                if score == 10 || score == 25 || score == 50 || score == 100 || score == 250 || score == 500 || score == 1000 && soundToggle == true {
-                    self.run(trumpetSound)
-                }
-            }
-            firstBody.categoryBitMask = obstacleGroup
-            firstBody.node?.run(SKAction.fadeOut(withDuration: 0.25), completion: { () -> Void in
-                firstBody.node?.removeFromParent()
-            })
-            targetObjects.run(dropOut, completion: { () -> Void in
-                let targetsMoveUp = SKAction.move(by: CGVector(dx: 0, dy: dropDist), duration: 0)
-                self.targetObjects.removeAllChildren()
-                self.targetObjects.run(targetsMoveUp)
-                self.makeTarget()
-            })
-            
-        } else if firstBody.categoryBitMask == ballGroup && secondBody.categoryBitMask == groundGroup {
-            firstBody.categoryBitMask = obstacleGroup
-            firstBody.node?.run(SKAction.fadeOut(withDuration: 0.25), completion: { () -> Void in
-                firstBody.node?.removeFromParent()
-            })
-            //if highTest == true {
-                saveHighscore(Int(score))
-            //}
-            if soundToggle == true {
-                self.run(thudSound, completion: { () -> Void in
-                    if self.inContinue == false {
-                        self.continueMenu(true)
-                    }
-                })
-            } else {
-                if inContinue == false {
-                    continueMenu(true)
-                }
-            }
-        }
-    }
-    
-    func makeTarget() {
-        self.size = self.view!.frame.size
-        
-        var targetSide = self.frame.size.width / 8
-        let targetSize = 1 / ((0.05 * score * score) + 1.0)
-        let targetFadeIn = SKAction.fadeIn(withDuration: 1)
-        targetSide = targetSide * CGFloat(targetSize)
-        if targetSide < 1 {
-            targetSide = 1.0
-        }
-        let target = SKShapeNode(circleOfRadius: targetSide)
-        target.fillColor = UIColor(red: 0.937, green: 0.208, blue: 0.239, alpha: 1)
-        target.strokeColor = UIColor(red: 0.937, green: 0.208, blue: 0.239, alpha: 1)
-
-        let endValueX = UInt32(self.frame.size.width - targetSide * 2)
-        var placementX = arc4random_uniform(endValueX)
-        placementX = placementX + UInt32(targetSide)
-        
-        let endValueY = UInt32(self.frame.size.height - targetSide * 3)
-        var placementY = arc4random_uniform(endValueY)
-        placementY = placementY + UInt32(targetSide)
-        
-        target.position = CGPoint(x: CGFloat(placementX), y: CGFloat(placementY) )
-        target.zPosition = 10
-        
-        target.physicsBody = SKPhysicsBody(circleOfRadius: targetSide)
-        target.physicsBody?.isDynamic = false
-        target.physicsBody?.categoryBitMask = targetGroup
-        
-        target.name = targetGroupName
-        
-        target.alpha = 0
-        
-        targetObjects.addChild(target)
-        target.run(targetFadeIn)
     }
     
     func authenticateLocalPlayer(){
@@ -282,12 +118,12 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
     
     func saveHighscore(_ score:Int) {
         if GKLocalPlayer.localPlayer().isAuthenticated {
-            let scoreReporter = GKScore(leaderboardIdentifier: "targetballheroleaderboardleveltwo74656")
+            let scoreReporter = GKScore(leaderboardIdentifier: "targetballheroleaderboard74656")
             scoreReporter.value = Int64(score)
             let scoreArray: [GKScore] = [scoreReporter]
             GKScore.report(scoreArray, withCompletionHandler: { (error: Error?) -> Void in
                 if error != nil {
-                    print(error ?? "Error")
+                    //                    println(error)
                 }
             })
         }
@@ -350,6 +186,10 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
             scoreLabel.fontColor = UIColor.black
             inContinue = false
         }
+    }
+    
+    func makeTarget() {
+        fatalError("Must Override")
     }
     
     func tutorial(_ stage: Int) {
@@ -468,50 +308,136 @@ class GameSceneTwo: SKScene, SKPhysicsContactDelegate  {
         yesLabel.text = "Yes (\(continueNum))"
     }
     
-    func getBackground() -> SKSpriteNode {
-        var bg = SKSpriteNode()
-        var authorizationStatus = PHPhotoLibrary.authorizationStatus()
-        if UserDefaults.standard.object(forKey: "backgroundID") != nil && authorizationStatus == .authorized{
-            var images: PHFetchResult<PHAsset>!
-            let imageManager = PHImageManager()
-            var backgroundID : [String] = []
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        /* Called when a touch begins */
+        self.size = self.view!.frame.size
+        
+        for touch: AnyObject in touches {
+            let location = touch.location(in: self)
             
-            backgroundID.append(UserDefaults.standard.object(forKey: "backgroundID")! as! String)
-            images = PHAsset.fetchAssets(withLocalIdentifiers: backgroundID, options: nil)
-            var backgroundImage = UIImage()
-            var options:PHImageRequestOptions = PHImageRequestOptions()
-            options.isSynchronous = true
-            var imageAsset: PHAsset? {
-                didSet {
-                    imageManager.requestImage(for: imageAsset!, targetSize:CGSize(width: self.frame.width * 8, height: self.frame.height * 8), contentMode: .aspectFill, options: options) { image, info in
-                        if image != nil {
-                            let texture = SKTexture(image: image!)
-                            bg = SKSpriteNode(texture: texture, size: self.frame.size)
-                            
-                            switch image!.imageOrientation {
-                            case UIImageOrientation.down:
-                                bg.yScale = -1
-                                bg.xScale = -1
-                            case UIImageOrientation.left:
-                                bg.zRotation = CGFloat(Double.pi / 2)
-                            case UIImageOrientation.right:
-                                bg.zRotation = CGFloat(-Double.pi / 2)
-                            default:
-                                break
-                            }
-                            backgroundImage = image!
-                        } else {
-                            bg = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
-                        }
-                    }
+            if inContinue == false && inTutorial == false {
+                let ballWidth = self.frame.size.height / 30
+                let dx = (location.x) * 2
+                let dy = (location.y - self.frame.midY) * 2
+                let ball = SKShapeNode(circleOfRadius: ballWidth)
+                ball.fillColor = UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1)
+                ball.strokeColor = UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1)
+                ball.position = CGPoint(x: self.frame.minX, y: self.frame.midY)
+                ball.physicsBody = SKPhysicsBody(circleOfRadius: ballWidth)
+                ball.physicsBody?.isDynamic = true
+                ball.physicsBody?.velocity = CGVector(dx: dx, dy: dy)
+                ball.name = ballGroupName
+                ball.zPosition = 10
+                ball.physicsBody?.categoryBitMask = ballGroup
+                ball.physicsBody?.contactTestBitMask = targetGroup | groundGroup
+                self.addChild(ball)
+                
+                if soundToggle == true {
+                    
+                    self.run(ballSound)
                 }
+            } else if inContinue == true {
+                if yesLabel.contains(location) {
+                    if continueNum > 0 {
+                        continueNum -= 1
+                        UserDefaults.standard.set(continueNum, forKey: "continues")
+                        continueMenu(false)
+                    } else {
+                        let alert = UIAlertController(title: "No Continues Left", message: "Buy more at the store.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
+                            self.gameOver()
+                        }))
+                        alert.addAction(UIAlertAction(title: "Store", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
+                            self.showStore()
+                        }))
+                        self.view?.window?.rootViewController!.present(alert, animated: true, completion: nil)
+                    }
+                    
+                } else if noLabel.contains(location) {
+                    gameOver()
+                } else {
+                    score = 0
+                    scoreLabel.text = "\(Int(score))"
+                    let dropDist = self.frame.size.height / 3
+                    let dropOut = SKAction.move(by: CGVector(dx: 0, dy: -dropDist), duration: 0.25)
+                    targetObjects.run(dropOut, completion: { () -> Void in
+                        let targetsMoveUp = SKAction.move(by: CGVector(dx: 0, dy: dropDist), duration: 0)
+                        self.targetObjects.removeAllChildren()
+                        self.targetObjects.run(targetsMoveUp)
+                        self.makeTarget()
+                    })
+                    continueMenu(false)
+                }
+            } else if inTutorial == true {
+                tutorial(tutorialStage)
             }
-            imageAsset = images[0]
-        } else {
-            bg = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
         }
-        return bg
     }
     
-    
+    func didBegin(_ contact: SKPhysicsContact) {
+        self.size = self.view!.frame.size
+        
+        let dropDist = self.frame.size.height / 3
+        var firstBody = SKPhysicsBody()
+        var secondBody = SKPhysicsBody()
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if firstBody.categoryBitMask == ballGroup && secondBody.categoryBitMask == targetGroup {
+            let dropOut = SKAction.move(by: CGVector(dx: 0, dy: -dropDist), duration: 0.25)
+            if soundToggle == true {
+                
+                self.run(hitSound)
+            }
+            score += 1
+            scoreLabel.text = "\(Int(score))"
+            if Helpers.isHighScore(score, scoreKey: scoreKey) {
+                scoreLabel.fontColor = UIColor.red
+                highTest = true
+                if score == 10 || score == 25 || score == 50 || score == 100 || score == 250 || score == 500 || score == 1000 && soundToggle == true {
+                    
+                    self.run(trumpetSound)
+                }
+            }
+            firstBody.categoryBitMask = obstacleGroup
+            firstBody.node?.run(SKAction.fadeOut(withDuration: 0.25), completion: { () -> Void in
+                firstBody.node?.removeFromParent()
+            })
+            targetObjects.run(dropOut, completion: { () -> Void in
+                let targetsMoveUp = SKAction.move(by: CGVector(dx: 0, dy: dropDist), duration: 0)
+                self.targetObjects.removeAllChildren()
+                self.targetObjects.run(targetsMoveUp)
+                self.makeTarget()
+            })
+            
+        } else if firstBody.categoryBitMask == ballGroup && secondBody.categoryBitMask == groundGroup {
+            firstBody.categoryBitMask = obstacleGroup
+            firstBody.node?.run(SKAction.fadeOut(withDuration: 0.25), completion: { () -> Void in
+                firstBody.node?.removeFromParent()
+            })
+            //if highTest == true {
+            saveHighscore(Int(score))
+            //}
+            if soundToggle == true {
+                
+                self.run(thudSound, completion: { () -> Void in
+                    if self.inContinue == false {
+                        self.continueMenu(true)
+                    }
+                })
+            } else {
+                if inContinue == false {
+                    continueMenu(true)
+                }
+            }
+        }
+    }
 }
+
+
