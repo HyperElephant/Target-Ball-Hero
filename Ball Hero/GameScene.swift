@@ -12,11 +12,12 @@ import Photos
 
 class GameScene: GameBase  {
 
-    let scoreKey = "highScore"
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
-    
+        scoreKey = "highScore"
+        UserDefaults.standard.set(1, forKey: "currentLevel")
+
     }
     
     override func makeTarget() {
