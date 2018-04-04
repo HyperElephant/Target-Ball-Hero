@@ -59,7 +59,7 @@ class GameBase: SKScene, SKPhysicsContactDelegate  {
     
     override func didMove(to view: SKView) {
         self.size = self.view!.frame.size
-        authenticateLocalPlayer()
+        Helpers.authenticateLocalPlayer(self.view)
         NotificationCenter.default.addObserver(self, selector: #selector(GameScene.updateContinues), name: NSNotification.Name(rawValue: "updateContinues"), object: nil)
 
         if UserDefaults.standard.object(forKey: "soundState") != nil {
@@ -110,17 +110,6 @@ class GameBase: SKScene, SKPhysicsContactDelegate  {
         self.addChild(targetObjects)
     }
     
-    func authenticateLocalPlayer(){
-        let localPlayer = GKLocalPlayer.localPlayer()
-        localPlayer.authenticateHandler = {(viewController, error) -> Void in
-            if (viewController != nil) {
-                self.view?.window?.rootViewController?.present(viewController!, animated: true, completion: nil)
-            } else {
-                //                println(error)
-            }
-        }
-    }
-    
     func saveHighscore(_ score:Int) {
         if GKLocalPlayer.localPlayer().isAuthenticated {
             let scoreReporter = GKScore(leaderboardIdentifier: "targetballheroleaderboard74656")
@@ -139,7 +128,7 @@ class GameBase: SKScene, SKPhysicsContactDelegate  {
         inContinue = true
         continueNum = UserDefaults.standard.integer(forKey: "continues")
         
-        if toggleContinue == true {
+        if toggleContinue {
             continuePane.size = CGSize(width: self.frame.width, height: self.frame.height)
             continuePane.color = UIColor.black
             continuePane.position = CGPoint(x: self.frame.midX, y: self.frame.midY)

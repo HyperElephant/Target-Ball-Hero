@@ -9,6 +9,7 @@
 import Foundation
 import Photos
 import SpriteKit
+import GameKit
 
 class Helpers {
     
@@ -73,6 +74,17 @@ class Helpers {
         }
         UserDefaults.standard.set(score, forKey: "lastScore")
         return isHigh
+    }
+    
+    static func authenticateLocalPlayer(_ view: SKView?) {
+        let localPlayer = GKLocalPlayer.localPlayer()
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            if (viewController != nil) {
+                view?.window?.rootViewController?.present(viewController!, animated: true, completion: nil)
+            } else {
+                //                println(error)
+            }
+        }
     }
 }
 

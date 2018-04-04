@@ -11,6 +11,9 @@ import GameKit
 import SpriteKit
 
 class SelectLevelScene: SKScene {
+    
+    let debug = true
+    
     let levelOneLabel = SKLabelNodeButton()
     let levelTwoLabel = SKLabelNodeButton()
     let levelThreeLabel = SKLabelNodeButton()
@@ -44,7 +47,7 @@ class SelectLevelScene: SKScene {
     
     override func didMove(to view: SKView) {
         self.size = self.view!.frame.size
-        authenticateLocalPlayer()
+        Helpers.authenticateLocalPlayer(self.view)
         
         let background = SKSpriteNode(color: UIColor(red: 0.267, green: 0.529, blue: 0.925, alpha: 1), size: CGSize(width: self.frame.width, height: self.frame.height))
         
@@ -331,33 +334,21 @@ class SelectLevelScene: SKScene {
     }
     
     func unlock() {
-        if getTotalHighScore() > 25 {
+        if getTotalHighScore() > 25 || debug {
             levelTwoUnlock.removeFromParent()
             levelTwoPane.removeFromParent()
         }
         
-        if getTotalHighScore() > 50 {
+        if getTotalHighScore() > 50 || debug {
             levelThreeUnlock.removeFromParent()
             levelThreePane.removeFromParent()
         }
         
-        if getTotalHighScore() > 75 {
+        if getTotalHighScore() > 75 || debug {
             levelFourUnlock.removeFromParent()
             levelFourPane.removeFromParent()
         }
 
-    }
-    
-    func authenticateLocalPlayer(){
-        
-        let localPlayer = GKLocalPlayer.localPlayer()
-        localPlayer.authenticateHandler = {(viewController, error) -> Void in
-            if (viewController != nil) {
-                self.view?.window?.rootViewController?.present(viewController!, animated: true, completion: nil)
-            } else {
-                                //print(error)
-            }
-        }
     }
     
     func deselectAll() {

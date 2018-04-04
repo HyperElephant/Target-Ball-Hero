@@ -12,7 +12,7 @@ import StoreKit
 class StoreViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     
     var tableView = UITableView()
-    let productIdentifiers = Set(["RemoveAds","add5Continues"])
+    let productIdentifiers = Set(["add5Continues"])
     var product: SKProduct?
     var productsArray = Array<SKProduct>()
     var buyButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 60.0, y: 5.0, width: 50.0, height: 20.0))
@@ -121,13 +121,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func deliverProduct(_ transaction:SKPaymentTransaction) {
         
-        if transaction.payment.productIdentifier == "RemoveAds"
-        {
-            print("Ad Remove Purchased")
-            // Remove Ads
-            UserDefaults.standard.set(true, forKey: "RemoveAds")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "removeAds"), object: nil)
-        } else if transaction.payment.productIdentifier == "add5Continues" {
+        if transaction.payment.productIdentifier == "add5Continues" {
             print("5 Continues Purchased")
             // Add 5 Continues
             var continues = UserDefaults.standard.integer(forKey: "continues")
@@ -145,17 +139,6 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         print("Transactions Restored")
         
-//        var purchasedItemIDS = []
-        for transaction:SKPaymentTransaction in queue.transactions {
-            
-            if transaction.payment.productIdentifier == "RemoveAds"
-            {
-                print("Ad Remove Purchased")
-                // Remove Ads
-                UserDefaults.standard.set(true, forKey: "RemoveAds")
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "removeAds"), object: nil)
-            }
-        }
         let alert = UIAlertView(title: "Thank You", message: "Your purchase(s) were restored.", delegate: nil, cancelButtonTitle: "OK")
         alert.show()
     }
@@ -181,7 +164,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         if self.productsArray.count != 0
         {
-            if (indexPath as NSIndexPath).row == 2
+            if (indexPath as NSIndexPath).row == 1
             {
                 let restoreButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: UIScreen.main.bounds.width - 20.0, height: 44.0))
                 restoreButton.titleLabel!.font = UIFont (name: "HelveticaNeue-Bold", size: 20)

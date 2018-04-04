@@ -16,6 +16,7 @@
 		743A5BD31AC349EA0008FAEF /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743A5BD21AC349EA0008FAEF /* GameOverScene.swift */; };
 		7441968F1B968DA000A7CE19 /* GameSceneTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7441968E1B968DA000A7CE19 /* GameSceneTwo.swift */; };
 		744196911B96A70400A7CE19 /* SelectLevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744196901B96A70400A7CE19 /* SelectLevelScene.swift */; };
+		7441E4B220744DCB002B3E04 /* TimedGameBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7441E4B120744DCB002B3E04 /* TimedGameBase.swift */; };
 		7442CDF51BAF617800841AF2 /* SKLabelNodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7442CDF41BAF617800841AF2 /* SKLabelNodeButton.swift */; };
 		7442CDF71BAF6E1800841AF2 /* HE.png in Resources */ = {isa = PBXBuildFile; fileRef = 7442CDF61BAF6E1800841AF2 /* HE.png */; };
 		744F86B51B7FA24700D9765A /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 744F86B41B7FA24700D9765A /* Arrow.png */; };
@@ -30,7 +31,6 @@
 		746EC0B21AC0F59800A7DAD8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 746EC0B01AC0F59800A7DAD8 /* LaunchScreen.xib */; };
 		746EC0BE1AC0F59800A7DAD8 /* Ball_HeroTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746EC0BD1AC0F59800A7DAD8 /* Ball_HeroTests.swift */; };
 		746FDF341BAA844400A3CC4B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 746FDF331BAA844400A3CC4B /* GameKit.framework */; };
-		747CCE0E1AC5F5EF00745C31 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 747CCE0D1AC5F5EF00745C31 /* iAd.framework */; };
 		74871F691B2B5ECD00BA1953 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74871F681B2B5ECD00BA1953 /* StoreKit.framework */; };
 		748AFF461B586CEA00371291 /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748AFF451B586CEA00371291 /* StoreViewController.swift */; };
 		74913A461B72D09F009021C5 /* PhotoPickerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74913A451B72D09F009021C5 /* PhotoPickerHeaderView.swift */; };
@@ -59,6 +59,7 @@
 		743A5BD21AC349EA0008FAEF /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		7441968E1B968DA000A7CE19 /* GameSceneTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneTwo.swift; sourceTree = "<group>"; };
 		744196901B96A70400A7CE19 /* SelectLevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLevelScene.swift; sourceTree = "<group>"; };
+		7441E4B120744DCB002B3E04 /* TimedGameBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimedGameBase.swift; sourceTree = "<group>"; };
 		7442CDF41BAF617800841AF2 /* SKLabelNodeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKLabelNodeButton.swift; sourceTree = "<group>"; };
 		7442CDF61BAF6E1800841AF2 /* HE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HE.png; sourceTree = "<group>"; };
 		744F86B41B7FA24700D9765A /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
@@ -77,7 +78,6 @@
 		746EC0BC1AC0F59800A7DAD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		746EC0BD1AC0F59800A7DAD8 /* Ball_HeroTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball_HeroTests.swift; sourceTree = "<group>"; };
 		746FDF331BAA844400A3CC4B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		747CCE0D1AC5F5EF00745C31 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		74871F681B2B5ECD00BA1953 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		748AFF451B586CEA00371291 /* StoreViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		74913A451B72D09F009021C5 /* PhotoPickerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoPickerHeaderView.swift; path = ../PhotoPickerHeaderView.swift; sourceTree = "<group>"; };
@@ -94,7 +94,6 @@
 				746FDF341BAA844400A3CC4B /* GameKit.framework in Frameworks */,
 				7451F84A1B718E2500C6FEB2 /* Photos.framework in Frameworks */,
 				74871F691B2B5ECD00BA1953 /* StoreKit.framework in Frameworks */,
-				747CCE0E1AC5F5EF00745C31 /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +113,6 @@
 				746FDF331BAA844400A3CC4B /* GameKit.framework */,
 				7451F8491B718E2500C6FEB2 /* Photos.framework */,
 				74871F681B2B5ECD00BA1953 /* StoreKit.framework */,
-				747CCE0D1AC5F5EF00745C31 /* iAd.framework */,
 				746EC0A01AC0F59800A7DAD8 /* Ball Hero */,
 				746EC0BA1AC0F59800A7DAD8 /* Ball HeroTests */,
 				746EC09F1AC0F59800A7DAD8 /* Products */,
@@ -135,6 +133,7 @@
 			children = (
 				746EC0A31AC0F59800A7DAD8 /* AppDelegate.swift */,
 				741A62B020703EDC00A8B933 /* GameBase.swift */,
+				7441E4B120744DCB002B3E04 /* TimedGameBase.swift */,
 				741A62B220703F7600A8B933 /* Helpers.swift */,
 				746EC0A51AC0F59800A7DAD8 /* GameScene.sks */,
 				746EC0A91AC0F59800A7DAD8 /* GameViewController.swift */,
@@ -314,6 +313,7 @@
 				744196911B96A70400A7CE19 /* SelectLevelScene.swift in Sources */,
 				746EC0A81AC0F59800A7DAD8 /* GameScene.swift in Sources */,
 				74913A461B72D09F009021C5 /* PhotoPickerHeaderView.swift in Sources */,
+				7441E4B220744DCB002B3E04 /* TimedGameBase.swift in Sources */,
 				746EC0AA1AC0F59800A7DAD8 /* GameViewController.swift in Sources */,
 				74D911881B98C8FD006EAEC3 /* GameSceneThree.swift in Sources */,
 				743A5BD31AC349EA0008FAEF /* GameOverScene.swift in Sources */,
