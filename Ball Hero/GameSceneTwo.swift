@@ -32,16 +32,24 @@ class GameSceneTwo: GameBase  {
         let target = SKShapeNode(circleOfRadius: targetSide)
         target.fillColor = UIColor(red: 0.937, green: 0.208, blue: 0.239, alpha: 1)
         target.strokeColor = UIColor(red: 0.937, green: 0.208, blue: 0.239, alpha: 1)
-
-        let endValueX = UInt32(self.frame.size.width - targetSide * 2)
-        var placementX = arc4random_uniform(endValueX)
-        placementX = placementX + UInt32(targetSide)
         
-        let endValueY = UInt32(self.frame.size.height - targetSide * 3)
-        var placementY = arc4random_uniform(endValueY)
-        placementY = placementY + UInt32(targetSide)
+        let endValueX = self.frame.size.width - targetSide * 2
+        var placementX = CGFloat(arc4random_uniform(UInt32(endValueX)))
         
-        target.position = CGPoint(x: CGFloat(placementX), y: CGFloat(placementY) )
+        let time = placementX / self.size.width
+        let gravity = self.physicsWorld.gravity.dy
+        let posY = self.size.height / 2 * time
+        let negY = 0.5 * gravity * time * time
+        let maxY = posY + negY
+        
+        //var placementY = CGFloat(arc4random_uniform(UInt32(maxY)))
+        var placementY = maxY
+        
+        
+        placementY = placementY + targetSide
+        placementX = placementX + targetSide
+        
+        target.position = CGPoint(x: placementX, y: placementY )
         target.zPosition = 10
         
         target.physicsBody = SKPhysicsBody(circleOfRadius: targetSide)
