@@ -36,16 +36,14 @@ class GameSceneTwo: GameBase  {
         let endValueX = self.frame.size.width - targetSide * 2
         var placementX = CGFloat(arc4random_uniform(UInt32(endValueX)))
         
-        let time = placementX / self.size.width
+        let vy = self.size.height / 2
         let gravity = self.physicsWorld.gravity.dy
-        let posY = self.size.height / 2 * time
-        let negY = 0.5 * gravity * time * time
-        let maxY = posY + negY
+        let time = self.size.height / 2 / gravity
+        let posY = vy - 0.5 * gravity * time * time
+        let maxY = posY / 130 + self.size.height / 2
         
-        //var placementY = CGFloat(arc4random_uniform(UInt32(maxY)))
-        var placementY = maxY
-        
-        
+        var placementY = CGFloat(arc4random_uniform(UInt32(maxY)))
+
         placementY = placementY + targetSide
         placementX = placementX + targetSide
         

@@ -27,15 +27,21 @@ class GameSceneFour: TimedGameBase  {
         target.strokeColor = UIColor(red: 0.937, green: 0.208, blue: 0.239, alpha: 1)
         let targetFadeIn = SKAction.fadeIn(withDuration: 1)
         
-        let endValueX = UInt32(self.frame.size.width - targetSide * 2)
-        var placementX = arc4random_uniform(endValueX)
-        placementX = placementX + UInt32(targetSide)
+        let endValueX = self.frame.size.width - targetSide * 2
+        var placementX = CGFloat(arc4random_uniform(UInt32(endValueX)))
         
-        let endValueY = UInt32(self.frame.size.height - targetSide * 2)
-        var placementY = arc4random_uniform(endValueY)
-        placementY = placementY + UInt32(targetSide)
+        let vy = self.size.height / 2
+        let gravity = self.physicsWorld.gravity.dy
+        let time = self.size.height / 2 / gravity
+        let posY = vy - 0.5 * gravity * time * time
+        let maxY = posY / 130 + self.size.height / 2
         
-        target.position = CGPoint(x: CGFloat(placementX), y: CGFloat(placementY) )
+        var placementY = CGFloat(arc4random_uniform(UInt32(maxY)))
+        
+        placementY = placementY + targetSide
+        placementX = placementX + targetSide
+        
+        target.position = CGPoint(x: placementX, y: placementY)
         target.zPosition = 10
         
         target.physicsBody = SKPhysicsBody(circleOfRadius: targetSide)

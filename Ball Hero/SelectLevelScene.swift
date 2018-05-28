@@ -12,7 +12,7 @@ import SpriteKit
 
 class SelectLevelScene: SKScene {
     
-    let debug = true
+    let debug = false
     
     let levelOneLabel = SKLabelNodeButton()
     let levelTwoLabel = SKLabelNodeButton()
