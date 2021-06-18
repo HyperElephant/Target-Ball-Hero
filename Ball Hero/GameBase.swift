@@ -111,7 +111,7 @@ class GameBase: SKScene, SKPhysicsContactDelegate  {
     }
     
     func saveHighscore(_ score:Int) {
-        if GKLocalPlayer.localPlayer().isAuthenticated {
+        if GKLocalPlayer.local.isAuthenticated {
             let scoreReporter = GKScore(leaderboardIdentifier: "targetballheroleaderboard74656")
             scoreReporter.value = Int64(score)
             let scoreArray: [GKScore] = [scoreReporter]
@@ -347,11 +347,11 @@ class GameBase: SKScene, SKPhysicsContactDelegate  {
                 UserDefaults.standard.set(continueNum, forKey: "continues")
                 continueMenu(false)
             } else {
-                let alert = UIAlertController(title: "No Continues Left", message: "Buy more at the store.", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
+                let alert = UIAlertController(title: "No Continues Left", message: "Buy more at the store.", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Done", style: UIAlertAction.Style.default, handler: { (alert) -> Void in
                     self.gameOver()
                 }))
-                alert.addAction(UIAlertAction(title: "Store", style: UIAlertActionStyle.default, handler: { (alert) -> Void in
+                alert.addAction(UIAlertAction(title: "Store", style: UIAlertAction.Style.default, handler: { (alert) -> Void in
                     self.showStore()
                 }))
                 self.view?.window?.rootViewController!.present(alert, animated: true, completion: nil)

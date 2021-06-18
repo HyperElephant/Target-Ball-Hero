@@ -40,7 +40,7 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.register(PhotoPickerHeaderView.self, forSupplementaryViewOfKind:UICollectionElementKindSectionHeader, withReuseIdentifier: "Header")
+        collectionView.register(PhotoPickerHeaderView.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
         collectionView.backgroundColor = UIColor.white
         self.view.addSubview(collectionView)
         
@@ -84,14 +84,14 @@ class LandscapePhotoPicker: UIViewController, UICollectionViewDelegateFlowLayout
         
         var view: UICollectionReusableView
         switch kind {
-        case UICollectionElementKindSectionHeader:
+        case UICollectionView.elementKindSectionHeader:
             let headerView =
             collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                 withReuseIdentifier: "Header",
                 for: indexPath) as! PhotoPickerHeaderView
             headerView.label.text = "Choose Background"
-            headerView.cancelButton.addTarget(self, action: #selector(LandscapePhotoPicker.cancelPicker(_:)), for: UIControlEvents.touchUpInside)
-            headerView.defaultButton.addTarget(self, action: #selector(LandscapePhotoPicker.defaultBackground(_:)), for: UIControlEvents.touchUpInside)
+            headerView.cancelButton.addTarget(self, action: #selector(LandscapePhotoPicker.cancelPicker(_:)), for: UIControl.Event.touchUpInside)
+            headerView.defaultButton.addTarget(self, action: #selector(LandscapePhotoPicker.defaultBackground(_:)), for: UIControl.Event.touchUpInside)
             view =  headerView
         default:
             assert(false, "Unexpected element kind")

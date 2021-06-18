@@ -34,7 +34,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let doneButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 60.0, y: UIScreen.main.bounds.height - 20.0, width: 50.0, height: 20.0))
         doneButton.titleLabel!.font = UIFont (name: "HelveticaNeue", size: 12 * UIScale)
-        doneButton.addTarget(self, action: #selector(StoreViewController.buyProduct(_:)), for: UIControlEvents.touchUpInside)
+        doneButton.addTarget(self, action: #selector(StoreViewController.buyProduct(_:)), for: UIControl.Event.touchUpInside)
         doneButton.backgroundColor = UIColor.black
         
         SKPaymentQueue.default().add(self)
@@ -54,18 +54,16 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
             request.delegate = self
             request.start()
         } else {
-            let alert = UIAlertController(title: "In-App Purchases Not Enabled", message: "Please enable In App Purchase in Settings", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.default, handler: { alertAction in
+            let alert = UIAlertController(title: "In-App Purchases Not Enabled", message: "Please enable In App Purchase in Settings", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler: { alertAction in
                 alert.dismiss(animated: true, completion: nil)
                 
-                let url: URL? = URL(string: UIApplicationOpenSettingsURLString)
-                if url != nil
-                {
-                    UIApplication.shared.openURL(url!)
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url, options: [:])
                 }
                 
             }))
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { alertAction in
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { alertAction in
                 alert.dismiss(animated: true, completion: nil)
             }))
             self.present(alert, animated: true, completion: nil)
@@ -74,7 +72,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         
-        var products = response.products
+        let products = response.products
         
         if (products.count != 0) {
             for i in 0 ..< products.count
@@ -103,7 +101,7 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         for transaction in transactions {
             
             switch transaction.transactionState {
-                
+
             case SKPaymentTransactionState.purchased:
                 print("Transaction Approved")
                 print("Product Identifier: \(transaction.payment.productIdentifier)")
@@ -139,8 +137,11 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         print("Transactions Restored")
         
-        let alert = UIAlertView(title: "Thank You", message: "Your purchase(s) were restored.", delegate: nil, cancelButtonTitle: "OK")
-        alert.show()
+        let alert = UIAlertController(title: "Thank You", message: "Your purchase(s) were restored.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        present(alert, animated: true, completion: nil)
     }
     
     // Screen Layout Methods
@@ -168,10 +169,10 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
             {
                 let restoreButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: UIScreen.main.bounds.width - 20.0, height: 44.0))
                 restoreButton.titleLabel!.font = UIFont (name: "HelveticaNeue-Bold", size: 20)
-                restoreButton.addTarget(self, action: #selector(StoreViewController.restorePurchases(_:)), for: UIControlEvents.touchUpInside)
+                restoreButton.addTarget(self, action: #selector(StoreViewController.restorePurchases(_:)), for: UIControl.Event.touchUpInside)
                 restoreButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
-                restoreButton.setTitle("Restore Purchases", for: UIControlState())
-                restoreButton.setTitleColor(UIColor.black, for: UIControlState())
+                restoreButton.setTitle("Restore Purchases", for: UIControl.State())
+                restoreButton.setTitleColor(UIColor.black, for: UIControl.State())
                 retCell.addSubview(restoreButton)
             }
             else
@@ -193,13 +194,13 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
                 let buyButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 60.0, y: 5.0, width: 50.0, height: 20.0))
                 buyButton.titleLabel!.font = UIFont (name: "HelveticaNeue", size: 12 * UIScale)
                 buyButton.tag = (indexPath as NSIndexPath).row
-                buyButton.addTarget(self, action: #selector(StoreViewController.buyProduct(_:)), for: UIControlEvents.touchUpInside)
+                buyButton.addTarget(self, action: #selector(StoreViewController.buyProduct(_:)), for: UIControl.Event.touchUpInside)
                 buyButton.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.5)
                 let numberFormatter = NumberFormatter()
                 numberFormatter.numberStyle = .currency
                 numberFormatter.locale = Locale.current
-                buyButton.setTitle(numberFormatter.string(from: singleProduct.price), for: UIControlState())
-                buyButton.setTitleColor(UIColor.black, for: UIControlState())
+                buyButton.setTitle(numberFormatter.string(from: singleProduct.price), for: UIControl.State())
+                buyButton.setTitleColor(UIColor.black, for: UIControl.State())
                 retCell.addSubview(buyButton)
             }
         }
@@ -239,10 +240,10 @@ class StoreViewController: UIViewController, UITableViewDataSource, UITableViewD
         headerView.addSubview(headerTitle)
         
         let doneButton = UIButton(frame: CGRect(x: self.tableView.frame.width / 2 - 20, y: 0, width: self.tableView.frame.width - 20, height: 32 * UIScale))
-        doneButton.setTitle("Done", for: UIControlState())
-        doneButton.setTitleColor(UIColor.black, for: UIControlState())
+        doneButton.setTitle("Done", for: UIControl.State())
+        doneButton.setTitleColor(UIColor.black, for: UIControl.State())
         doneButton.backgroundColor = UIColor.clear
-        doneButton.addTarget(self, action: #selector(StoreViewController.closeStore(_:)), for: UIControlEvents.touchUpInside)
+        doneButton.addTarget(self, action: #selector(StoreViewController.closeStore(_:)), for: UIControl.Event.touchUpInside)
         headerView.addSubview(doneButton)
         
         return headerView

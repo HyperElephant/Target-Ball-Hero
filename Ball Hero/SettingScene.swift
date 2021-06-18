@@ -196,18 +196,16 @@ class SettingScene: SKScene, UINavigationControllerDelegate {
             let vc = self.view?.window?.rootViewController
             vc?.present(imagePicker, animated: true, completion: nil)
         } else {
-            let alert = UIAlertController(title: "Photo Library Access Not Enabled", message: "Please allow access in settings", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertActionStyle.default, handler: { alertAction in
+            let alert = UIAlertController(title: "Photo Library Access Not Enabled", message: "Please allow access in settings", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler: { alertAction in
                 alert.dismiss(animated: true, completion: nil)
                 
-                let url: URL? = URL(string: UIApplicationOpenSettingsURLString)
-                if url != nil
-                {
-                    UIApplication.shared.openURL(url!)
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
                 }
                 
             }))
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: { alertAction in
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { alertAction in
                 alert.dismiss(animated: true, completion: nil)
             }))
             self.view?.window?.rootViewController!.present(alert, animated: true, completion: nil)

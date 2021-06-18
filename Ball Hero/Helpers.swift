@@ -15,7 +15,7 @@ class Helpers {
     
     static func getBackground(frame: CGRect) -> SKSpriteNode {
         var bg = SKSpriteNode()
-        var authorizationStatus = PHPhotoLibrary.authorizationStatus()
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus()
         if UserDefaults.standard.object(forKey: "backgroundID") != nil && authorizationStatus == .authorized{
             var images: PHFetchResult<PHAsset>!
             let imageManager = PHImageManager()
@@ -23,8 +23,7 @@ class Helpers {
             
             backgroundID.append(UserDefaults.standard.object(forKey: "backgroundID")! as! String)
             images = PHAsset.fetchAssets(withLocalIdentifiers: backgroundID, options: nil)
-            var backgroundImage = UIImage()
-            var options:PHImageRequestOptions = PHImageRequestOptions()
+            let options: PHImageRequestOptions = PHImageRequestOptions()
             options.isSynchronous = true
             var imageAsset: PHAsset? {
                 didSet {
@@ -34,17 +33,16 @@ class Helpers {
                             bg = SKSpriteNode(texture: texture, size: frame.size)
                             
                             switch image!.imageOrientation {
-                            case UIImageOrientation.down:
+                            case UIImage.Orientation.down:
                                 bg.yScale = -1
                                 bg.xScale = -1
-                            case UIImageOrientation.left:
+                            case UIImage.Orientation.left:
                                 bg.zRotation = CGFloat(Double.pi / 2)
-                            case UIImageOrientation.right:
+                            case UIImage.Orientation.right:
                                 bg.zRotation = CGFloat(-Double.pi / 2)
                             default:
                                 break
                             }
-                            backgroundImage = image!
                         } else {
                             bg = SKSpriteNode(color: UIColor(red: 0.404, green: 0.945, blue: 0.49, alpha: 1), size: CGSize(width: frame.width, height: frame.height))
                         }
@@ -77,7 +75,7 @@ class Helpers {
     }
     
     static func authenticateLocalPlayer(_ view: SKView?) {
-        let localPlayer = GKLocalPlayer.localPlayer()
+        let localPlayer = GKLocalPlayer.local
         localPlayer.authenticateHandler = {(viewController, error) -> Void in
             if (viewController != nil) {
                 view?.window?.rootViewController?.present(viewController!, animated: true, completion: nil)

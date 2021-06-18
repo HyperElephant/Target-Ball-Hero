@@ -28,15 +28,15 @@ class PhotoPickerHeaderView: UICollectionReusableView {
         self.addSubview(label)
         
         cancelButton.frame = CGRect(x: self.bounds.width - 100, y: 0, width: 100, height: 30 * UIScale)
-        cancelButton.setTitle("Cancel", for: UIControlState())
-        cancelButton.setTitleColor(UIColor.black, for: UIControlState())
+        cancelButton.setTitle("Cancel", for: UIControl.State())
+        cancelButton.setTitleColor(UIColor.black, for: UIControl.State())
         cancelButton.backgroundColor = UIColor.clear
         cancelButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         self.addSubview(cancelButton)
         
         defaultButton.frame = CGRect(x: 0, y: 0, width: 100, height: 30 * UIScale)
-        defaultButton.setTitle("Default", for: UIControlState())
-        defaultButton.setTitleColor(UIColor.black, for: UIControlState())
+        defaultButton.setTitle("Default", for: UIControl.State())
+        defaultButton.setTitleColor(UIColor.black, for: UIControl.State())
         defaultButton.backgroundColor = UIColor.clear
         defaultButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         self.addSubview(defaultButton)
